@@ -48,14 +48,23 @@ body {
   justify-content: space-between;
 }
 .ch {
-  padding: 5px;
+  padding: 3px;
   display: flex;
-  width: 100px;
+  width: 90px;
   border-radius: 5px;
   border: 1px solid black;
   box-shadow: 1px 1px 1px rgb(189, 189, 189);
-  justify-content: space-between;
 }
 .ch_w {
   margin-right: 10px;
+}
+.a {
+  font-size: 15px;
+  font-weight: normal;
+  width: 50px;
+}
+.check {
+  margin: 0;
+  top: 0;
+  height: 15px;
 }

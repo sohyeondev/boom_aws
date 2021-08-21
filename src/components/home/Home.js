@@ -7,7 +7,7 @@ function Home() {
     <>
       <div className="all">
         <div className="whtthe">
-          <img src={laco} alt="라코타코" width="130px" height="65px" />
+          <img src={laco} alt="라코타코" width="90px" height="65px" />
           <div>
             화상회의, 라코타코와 함께하시면 <br />더 쉽게 할 수 있습니다.
           </div>

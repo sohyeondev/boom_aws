@@ -1,26 +1,18 @@
 import React from "react";
-import "./Signup.css";
+import "./signup.css";
 
 function signup() {
   return (
     <div>
-      <div className="green-nav" />
-
       <div className="allitems">
         <h2>가입하기</h2>
         <hr />
 
         <div>
-          <input type="text" id="" size="5" arial-label="성" />
-          <input type="text" id="" size="5" arial-label="이름" /> <br />
-          <input
-            type="text"
-            id=""
-            size="16"
-            arial-label="휴대폰 번호 또는 이메일"
-          />{" "}
-          <br />
-          <input type="text" id="" size="16" arial-label="비밀번호" />
+          <input type="text" id="" />
+          <input type="text" id="" /> <br />
+          <input type="text" id="" /> <br />
+          <input type="text" id="" />
         </div>
 
         <div>
@@ -38,13 +30,13 @@ function signup() {
             <div className="sex_box">
               <div className="ch ch_w">
                 <label className="a" for="female">
-                  여성
+                  여
                 </label>
                 <input className="check" type="radio" value="1" id="female" />
               </div>
               <div className="ch">
                 <label className="a" for="male">
-                  남성
+                  남
                 </label>
                 <input className="check" type="radio" value="2" id="male" />
               </div>
