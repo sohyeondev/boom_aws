@@ -6,21 +6,20 @@ function signup() {
     <div>
       <div className="allitems">
         <h2>가입하기</h2>
-        <hr />
 
         <div>
-          <input type="text" id="" />
-          <input type="text" id="" /> <br />
+          <input className="name1" type="text" id="" />
+          <input className="name" type="text" id="" /> <br />
           <input type="text" id="" /> <br />
           <input type="text" id="" />
         </div>
 
         <div>
-          <div className="birthdayTilte">생일</div>
+          <div className="birthdayTitle">생일</div>
           <span className="birthday" data-type="selectors">
-            <select arial-label="연도" id="year" />
-            <select arial-label="월" id="month" />
-            <select arial-label="일" id="day" />
+            <select id="year" />
+            <select id="month" />
+            <select id="day" />
           </span>
         </div>
 
