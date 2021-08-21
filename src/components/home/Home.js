@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/img/boom.png";
+import laco from "../../assets/img/lacotaco.png";
 
 function Home() {
   return (
     <>
       <div className="all">
         <div className="whtthe">
-          <img src={logo} alt="로고" width="130px" height="65px" />
+          <img src={laco} alt="라코타코" width="130px" height="65px" />
           <div>
-            화상회의, 라코타코와 함께하시면 <br />더 쉽게 할 수 있습니다
+            화상회의, 라코타코와 함께하시면 <br />더 쉽게 할 수 있습니다.
           </div>
         </div>
 

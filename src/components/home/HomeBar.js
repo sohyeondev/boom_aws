@@ -1,4 +1,4 @@
-import laco from "../../assets/img/lacotaco.png";
+import logo from "../../assets/img/boom.png";
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ function HomeBar() {
   return (
     <div className={classes.homebar}>
       <Link to="/">
-        <img src={laco} alt="라코타코" className={classes.img} />
+        <img src={logo} alt="로고" className={classes.img} />
       </Link>
     </div>
   );
