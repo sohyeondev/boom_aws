@@ -12,15 +12,18 @@ router.post('/', (req, res) =>{
         function(error, result){
             if(!error){
                 for (var i=0; i<result.length; i++) {
-                    if(loginEmail == result[i].email) {
-                        if(loginPW == result[i].pw) {
+                    if(loginEmail === result[i].email) {
+                        if(loginPW === result[i].pw) {
                             return res.json({ message: true }) //클라이언트에 전달
+                        }
+                        else {
+                            return res.json({ message: false})
                         }
                     }
                 }
-                return res.json({ message: false })
+                return res.json({message: "notUser" })
             } else {
-                console.log(error)
+                console.log("서버 오류 : "+error)
             }
         });
 

@@ -109,7 +109,7 @@ function Signup({ history }) {
         }
     })
     .catch((error)=> {
-        console.log("클라이언트 오류" + error)
+        console.log("클라이언트 오류 : " + error)
     })
     }
   }
