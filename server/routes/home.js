@@ -2,18 +2,21 @@
 var express = require("express");
 var router = express.Router(); 
 var mysql= require("./mysql");
+const crypto = require('crypto');
 
 router.post('/', (req, res) =>{
 
     var loginEmail = req.body.loginEmail  //클라이언트에서 받아오는 값
     var loginPW = req.body.loginPW
 
-    mysql.query('SELECT email, pw FROM users', 
+    mysql.query('SELECT email, pw, salt FROM users', 
         function(error, result){
             if(!error){
                 for (var i=0; i<result.length; i++) {
                     if(loginEmail === result[i].email) {
-                        if(loginPW === result[i].pw) {
+                        var userSalt = result[i].salt
+                        const hashLoginPW = crypto.createHash('sha512').update(loginPW + userSalt).digest('hex');
+                        if(hashLoginPW === result[i].pw) {
                             return res.json({ message: true }) //클라이언트에 전달
                         }
                         else {
