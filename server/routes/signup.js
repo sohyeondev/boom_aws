@@ -9,23 +9,30 @@ router.post('/', (req, res) =>{
     var email = req.body.email
     var pw = req.body.pw
 
-    mysql.query('INSERT INTO users(name, email, pw) VALUES(?, ?, ?);',
-    [name, email, pw],
+    mysql.query("SELECT * FROM users WHERE email = ?",
+    [email],
     function(error, result){
-        if(!error){
-            mysql.query('SELECT * FROM users', function(error, result){
-                if(!error) {
-                    for (var i=0; i<result.length; i++) {
-                        console.log(result[i])
+        if(!error) {
+            if(result[0]==undefined){
+                mysql.query('INSERT INTO users(name, email, pw) VALUES(?, ?, ?);',
+                [name, email, pw],
+                function(error, result){
+                    if(!error){
+                        res.json({ message: true }) //클라이언트에 전달
+                    } else {
+                        res.json({ message: false })
+                        console.log("서버 INSERT 오류 : " + error)
                     }
-                    return res.json({ message: true }) //클라이언트에 전달
-                }
-            })
-        } else {
-            res.json({ message: false })
-            console.log(error)
+                });
+            }
+            else if(result[0]){
+                res.json({ message: "dup" })
+            }
+        } 
+        else {
+            console.log("서버 SELECT 오류 : " + error)
         }
-    });
+    })
 
 });
 // 라우터를 모듈화

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Signup() {
+function Signup({ history }) {
   const [signName, setSignName] = useState("");
   const [signEmail, setSignEmail] = useState("");
   const [signPassword, setSignPassword] = useState("");
@@ -75,11 +75,21 @@ function Signup() {
 
   const onSignSubmitHandler = (event) => {
     event.preventDefault();
-    Post(signName, signEmail, signPassword)
+    Post(signName, signEmail, signPassword, signPasswordCon)
   }
   
-  const Post = async (name, email, pw)=> {
-    await axios.post(`http://127.0.0.1:3001/signup`, {
+  const Post = async (name, email, pw, pwC)=> {
+    if ( name === "" || email === "" || pw === "" || pwC === "") {
+      alert("모든 정보를 기입해주세요.")
+    }
+    else if (email.indexOf("@") === -1) {
+      alert("이메일 형식을 확인해주세요.")
+    } 
+    else if ( pw !== pwC ) {
+      alert("비밀번호가 다릅니다.")
+    }
+    else {
+      await axios.post(`http://127.0.0.1:3001/signup`, {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -90,17 +100,18 @@ function Signup() {
     }).then((res) => {
         //회원가입 성공
         if(res.data.message === true){
-          console.log("도착")
+          alert('가입 성공! 로그인 페이지로 이동합니다.')
+          history.push('/');
         }
         //회원가입 실패
-        else if(res.data.message === false){
-          console.log("도착 실패")
+        else if(res.data.message === "dup"){
+          alert('이미 가입된 이메일입니다.')
         }
     })
     .catch((error)=> {
-        console.log(error)
-        console.log("회원가입 클라이언트 오류")
+        console.log("클라이언트 오류" + error)
     })
+    }
   }
 
 

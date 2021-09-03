@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: "4em",
     height: "em",
+    display: "flex",
   },
 }));
 
