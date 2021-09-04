@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     background: "rgb(5, 63, 31)",
   },
   img: {
-    width: "4em",
-    height: "em",
+    width: "5em",
+    height: "3em",
     display: "flex",
   },
 }));

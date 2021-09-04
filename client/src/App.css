@@ -3,13 +3,6 @@ body {
   font-family: "티머니 둥근바람";
   flex: 1;
 }
-.green-nav {
-  background: rgb(5, 63, 31);
-  width: 100%;
-  display: flex;
-  color: white;
-  padding: 20px;
-}
 
 a {
   text-decoration: none;
@@ -53,8 +46,8 @@ a {
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
   box-sizing: border-box;
   padding: 20px 0 28px;
-  width: 400px;
-  height: 350px;
+  width: 380px;
+  height: 370px;
 }
 
 input {
@@ -68,7 +61,7 @@ input {
 .button {
   background-color: #6edaa0;
   width: 100px;
-  height: 30px;
+  height: 32px;
 }
 
 .button2 {

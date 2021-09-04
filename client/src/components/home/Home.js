@@ -74,11 +74,12 @@ function Home({ history }) {
     <>
       <div className="all">
         <div className="whtthe">
-          <img src={logo} alt="로고" width="160px" height="85px" />
+          <img src={logo} alt="로고" width="160px" height="90px" />
         </div>
         <br />
         <div className="login">
-          <br />
+          <h2>로그인하기</h2>
+
           <input
             type="text"
             id="id"
@@ -105,11 +106,8 @@ function Home({ history }) {
             >
               로그인
             </button>
-          </Link>
-          <div>
             <br />
-            <Link to="/sigunp">비밀번호를 잊으셨나요?</Link>
-          </div>
+          </Link>
           <br />
           <hr />
           <br />

@@ -1,9 +1,11 @@
 import React from "react";
+import HomeBar from "../home/HomeBar";
 import { Link } from "react-router-dom";
 
 function auth() {
   return (
     <>
+      <HomeBar />
       <div>인증 성공 페이지입니다.</div>
       <Link to="/auth/meeting_in">
         <button>회의 참가</button>
