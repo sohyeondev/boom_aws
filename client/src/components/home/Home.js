@@ -41,7 +41,6 @@ function Home({ history }) {
     } else if (email.indexOf("@") === -1) {
       alert("이메일 형식을 확인해주세요.");
     } else {
-      console.log("aaa");
       await axios
         .post(`http://127.0.0.1:3001/`, {
           headers: {
@@ -55,6 +54,7 @@ function Home({ history }) {
           //로그인 성공
           if (res.data.message === true) {
             alert("로그인 성공! 인증페이지로 이동합니다.");
+            sessionStorage.setItem('user_email', email)
             history.push("/auth");
           }
           //로그인 실패
