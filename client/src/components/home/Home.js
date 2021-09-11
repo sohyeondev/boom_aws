@@ -42,7 +42,7 @@ function Home({ history }) {
       alert("이메일 형식을 확인해주세요.");
     } else {
       await axios
-        .post(`http://127.0.0.1:3001/`, {
+        .post(`http://3.34.61.45:3001/`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
