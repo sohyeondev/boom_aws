@@ -16,7 +16,9 @@ function Home({ history }) {
 
   useEffect(() => {
     const p = document.getElementById("notEmail");
+    const input_id = document.getElementById("id");
     if (loginEmail === "") {
+      input_id.style.border.color = red;
       p.style.display = "none";
     } else {
       if (loginEmail.indexOf("@") === -1) {
@@ -42,7 +44,7 @@ function Home({ history }) {
       alert("이메일 형식을 확인해주세요.");
     } else {
       await axios
-        .post(`http://127.0.0.1:3001/`, {
+        .post(`http://3.34.61.45:3001/`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -78,12 +80,9 @@ function Home({ history }) {
         </div>
         <br />
         <div className="login">
-          <h2>로그인하기</h2>
-
           <input
             type="text"
             id="id"
-            size="15"
             onChange={onLoginEmailHandler}
             placeholder="이메일"
           />
@@ -92,27 +91,22 @@ function Home({ history }) {
           <input
             type="password"
             id="password"
-            size="15"
             onChange={onLoginPasswordHandler}
             placeholder="비밀번호"
           />
-          <br />
-          <br />
           <Link to="/auth">
-            <button
-              type="submit"
-              className="button"
+            <input
+              type="button"
+              className="login_but"
+              value="로그인"
               onClick={onLoginSubmitHandler}
-            >
-              로그인
-            </button>
-            <br />
+            />
           </Link>
-          <br />
+          <h4>비밀번호를 잊으셨나요?</h4>
           <hr />
           <br />
           <Link to="/signup">
-            <input type="button" className="button2" value="새 계정 만들기" />
+            <input type="button" className="sign_but" value="새 계정 만들기" />
           </Link>
         </div>
       </div>

@@ -88,7 +88,7 @@ function Signup({ history }) {
       alert("비밀번호가 다릅니다.");
     } else {
       await axios
-        .post(`http://127.0.0.1:3001/signup`, {
+        .post(`http://3.34.61.45:3001/signup`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
