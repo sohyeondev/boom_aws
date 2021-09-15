@@ -5,7 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import HomeBar from "../home/HomeBar";
+import logo from "../../assets/img/boom.png";
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,16 +36,20 @@ function Signup({ history }) {
 
   useEffect(() => {
     const p = document.getElementById("notEmail");
+    const allitems = document.getElementById("allitems")
     if (signEmail === "") {
       p.style.display = "none";
+      allitems.style.height = "480px";
     } else {
       if (signEmail.indexOf("@") === -1) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
+        allitems.style.height = "510px";
       } else {
         p.style.display = "none";
+        allitems.style.height = "480px";
       }
     }
   }, [signEmail]);
@@ -59,17 +64,21 @@ function Signup({ history }) {
 
   useEffect(() => {
     const p = document.getElementById("notPWCon");
+    const allitems = document.getElementById("allitems")
     const signPassword = document.getElementById("signPassword").value;
     if (signPasswordCon === "") {
       p.style.display = "none";
+      allitems.style.height = "480px";
     } else {
       if (signPasswordCon !== signPassword) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
+        allitems.style.height = "510px";
       } else {
         p.style.display = "none";
+        allitems.style.height = "480px";
       }
     }
   }, [signPasswordCon]);
@@ -88,7 +97,7 @@ function Signup({ history }) {
       alert("비밀번호가 다릅니다.");
     } else {
       await axios
-        .post(`http://3.34.61.45:3001/signup`, {
+        .post(`http://localhost:3001/signup`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -118,11 +127,12 @@ function Signup({ history }) {
 
   return (
     <div>
-      <HomeBar />
-      <div className="allitems">
-        <br />
-        <h2>가입하기</h2>
+      <div className='logo'>
+      <img src={logo} alt="로고" width="160px" height="90px" />
+      </div>
+      <div className="allitems" id="allitems">
         <div>
+          <br /><br />
           <input
             type="text"
             id="signName"
@@ -152,28 +162,27 @@ function Signup({ history }) {
           <br />
           <p id="notPWCon">비밀번호를 다시 확인해주세요!</p>
         </div>
-        <br />
-        <div className="birthdayTitle">생일</div>
-        <form className={classes.container} noValidate>
-          <TextField
-            id="date"
-            type="date"
-            defaultValue="2017-05-24"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
-        <br />
+        <div className="birthday">
+          <div className="birthdayTitle">
+            <p>생일</p>
+          </div>
+          <div className="birthdayCon">
+            <form className={classes.container} noValidate>
+              <TextField
+                id="date"
+                type="date"
+                defaultValue="2017-05-24"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </form>
+          </div>
+        </div>
         <Link to="/">
-          <button
-            type="submit"
-            className="button"
-            onClick={onSignSubmitHandler}
-          >
-            가입하기
-          </button>
+          <br />
+          <input type="button" className="sign_but" onClick={onSignSubmitHandler} value="가입하기" />
         </Link>
       </div>
     </div>

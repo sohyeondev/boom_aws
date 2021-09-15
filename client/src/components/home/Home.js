@@ -16,18 +16,20 @@ function Home({ history }) {
 
   useEffect(() => {
     const p = document.getElementById("notEmail");
-    const input_id = document.getElementById("id");
+    const login = document.getElementById("login")
     if (loginEmail === "") {
-      input_id.style.border.color = red;
       p.style.display = "none";
+      login.style.height = "400px";
     } else {
       if (loginEmail.indexOf("@") === -1) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
+        login.style.height = "430px";
       } else {
         p.style.display = "none";
+        login.style.height = "400px";
       }
     }
   }, [loginEmail]);
@@ -44,7 +46,7 @@ function Home({ history }) {
       alert("이메일 형식을 확인해주세요.");
     } else {
       await axios
-        .post(`http://3.34.61.45:3001/`, {
+        .post(`http://localhost:3001/`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -79,7 +81,7 @@ function Home({ history }) {
           <img src={logo} alt="로고" width="160px" height="90px" />
         </div>
         <br />
-        <div className="login">
+        <div className="login" id="login">
           <input
             type="text"
             id="id"
@@ -102,7 +104,7 @@ function Home({ history }) {
               onClick={onLoginSubmitHandler}
             />
           </Link>
-          <h4>비밀번호를 잊으셨나요?</h4>
+          <a href="/"><h4>비밀번호를 잊으셨나요?</h4></a>
           <hr />
           <br />
           <Link to="/signup">
