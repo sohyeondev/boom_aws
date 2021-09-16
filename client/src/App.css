@@ -14,7 +14,7 @@ a {
   text-align: center;
   display: flex;
   flex-direction: column;
-  padding: 100px 100px 100px 100px;
+  padding: 70px 100px 100px 100px;
 }
 
 .whtthe {
@@ -26,11 +26,9 @@ a {
   position: relative;
   font-weight: bold;
   direction: ltr;
-  margin-left: 5%;
 }
 
 .login {
-  margin-left: 5%;
   position: relative;
   display: inline-block;
   text-align: center;
@@ -48,6 +46,8 @@ a {
   width: 380px;
   height: 420px;
 }
+
+h3 { margin-bottom : 0;}
 
 input {
   font-size: medium;
@@ -67,4 +67,10 @@ input {
 
 h4 {
   color:grey;
+}
+
+hr {
+  border : 0px;
+  height: 1px;
+  background-color:gainsboro;
 }

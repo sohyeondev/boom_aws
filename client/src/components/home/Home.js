@@ -79,6 +79,9 @@ function Home({ history }) {
       <div className="all">
         <div className="whtthe">
           <img src={logo} alt="로고" width="160px" height="90px" />
+          <div className="catch">
+            <h3>더 빠르고 안전하게,<br />지금 BOOM에서 회의하세요!</h3>
+          </div>
         </div>
         <br />
         <div className="login" id="login">

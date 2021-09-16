@@ -14,7 +14,7 @@ body {
   position: relative;
   font-weight: bold;
   direction: ltr;
-  margin-left: 5%;
+  top : 70px;
 }
 .allitems {
   display: flex;
@@ -29,8 +29,8 @@ body {
   border: none;
   box-sizing: border-box;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-  width: 400px;
-  height: 510px;
+  width: 380px;
+  height: 500px;
   margin: auto;
   position: relative;
   top: 100px;
