@@ -59,10 +59,10 @@ input {
   margin-bottom: 0.8em;
 }
 .login_but {
-  background-color: #6edaa0;
+  background-color: rgb(102, 217, 190);
 }
 .sign_but {
-  background-color: #6edaa0;
+  background-color: rgb(102, 217, 190);
 }
 
 h4 {

@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function MeetingIn() {
+const MeetingIn = () => {
+  const [disabled, setDisabled] = useState(true);
+  const [name, setName] = useState("");
+  const [link, setLink] = useState("");
+
+  const onChange = (e) => {
+    const { value } = e.target;
+    if (value) {
+      setDisabled(false);
+      setName(value);
+    } else {
+      setDisabled(true);
+    }
+  };
+
+  const onLink = (e) => {
+    const { value } = e.target;
+    if (value) {
+      setDisabled(false);
+      setLink(value);
+    } else {
+      setDisabled(true);
+    }
+  };
+
   return (
-    <div>
-      <h1>회의 참가페이지입니다</h1>
-      <Link to="/auth/meeting_link">
-        <button>다음</button>
-      </Link>
-    </div>
+    <>
+      <input
+        type="text"
+        placeholder="회의 주소를 입력하세요."
+        onChange={onLink}
+      />
+      <input type="text" onChange={onChange} placeholder="이름을 입력하세요" />
+      <button type="button" disabled={disabled}>
+        <Link
+          to={{
+            pathname: link,
+            state: {
+              username: name,
+            },
+          }}
+        >
+          입장
+        </Link>
+      </button>
+    </>
   );
-}
+};
 
 export default MeetingIn;

@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { v1 as uuid } from "uuid";
 import { Link } from "react-router-dom";
-import HomeBar from "../home/HomeBar";
 
-function MeetingUp() {
+const MeetingUp = () => {
+  const [disabled, setDisabled] = useState(true);
+  const [name, setName] = useState("");
+  const id = uuid();
+
+  const onChange = (e) => {
+    const { value } = e.target;
+    if (value) {
+      setDisabled(false);
+      setName(value);
+    } else {
+      setDisabled(true);
+    }
+  };
+
   return (
-    <div>
-      <HomeBar />
-      <h1>회의 생성페이지입니다.</h1>
-      <Link to="/auth/meeting_con">
-        <button>다음</button>
-      </Link>
-    </div>
+    <>
+      <input type="text" onChange={onChange} placeholder="이름을 입력하세요." />
+      <button type="button" disabled={disabled}>
+        <Link
+          to={{
+            pathname: `/room/${id}`,
+            state: {
+              username: name,
+            },
+          }}
+        >
+          입장
+        </Link>
+      </button>
+    </>
   );
-}
+};
 
 export default MeetingUp;

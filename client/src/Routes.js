@@ -9,8 +9,8 @@ import MyCredential from "./components/my/MyCredential";
 import MyDID from "./components/my/MyDID";
 import MyVideos from "./components/my/MyVideos";
 import MeetingCon from "./components/meeting/MeetingCon";
-import MeetingLink from "./components/meeting/MeetingLink";
 import My from "./components/my/My";
+import Room from "./components/room/Room";
 
 export const Routes = () => {
   return (
@@ -21,8 +21,8 @@ export const Routes = () => {
       <Route path="/auth/meeting_in" component={MeetingIn} />
       <Route path="/auth/meeting_up" component={MeetingUp} />
       <Route path="/auth/meeting_con" component={MeetingCon} />
-      <Route path="/auth/meeting_link" component={MeetingLink} />
-      <Route path="/auth/meeting" component={Meeting} />
+      <Route path="/auth/meeting" exact component={Meeting} />
+      <Route path="/room/:roomID" component={Room} />
       <Route path="/my" exact component={My} />
       <Route path="/my/my_credential" component={MyCredential} />
       <Route path="/my/my_did" component={MyDID} />
