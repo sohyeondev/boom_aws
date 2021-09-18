@@ -19,17 +19,17 @@ function Home({ history }) {
     const login = document.getElementById("login")
     if (loginEmail === "") {
       p.style.display = "none";
-      login.style.height = "400px";
+      login.style.height = "390px";
     } else {
       if (loginEmail.indexOf("@") === -1) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
-        login.style.height = "430px";
+        login.style.height = "420px";
       } else {
         p.style.display = "none";
-        login.style.height = "400px";
+        login.style.height = "390px";
       }
     }
   }, [loginEmail]);
@@ -107,7 +107,10 @@ function Home({ history }) {
               onClick={onLoginSubmitHandler}
             />
           </Link>
+          <br />
+          <br />
           <a href="/"><h4>비밀번호를 잊으셨나요?</h4></a>
+          <br />
           <hr />
           <br />
           <Link to="/signup">

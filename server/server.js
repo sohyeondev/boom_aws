@@ -4,7 +4,7 @@ var app = express();
 const server = http.createServer(app);
 const socket = require("socket.io")
 const io = socket(server);
-const port = 8000
+const port = 3001
 const cors = require("cors");
 var bodyparser = require('body-parser');
 

@@ -124,3 +124,59 @@ ul {
   padding: 3px 5px;
   margin: 5px 5px 5px auto;
 }
+
+.join-box {
+  overflow: hidden;
+  position: relative;
+  margin: auto;
+  width: 380px;
+  height: 350px;
+  background: #fff;
+  color: #1c1e21;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-sizing: border-box;
+  text-align: center;
+  padding-top: 40px;
+}
+
+.create-box {
+  overflow: hidden;
+  position: relative;
+  margin: auto;
+  width: 380px;
+  height: 280px;
+  background: #fff;
+  color: #1c1e21;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-sizing: border-box;
+  text-align: center;
+  padding-top: 40px;
+}
+
+input {
+  font-size: medium;
+  width: 300px;
+  height: 50px;
+  border-radius: 4px;
+  border: 1px solid #dddfe2;
+  background-color: #f6fffa;
+  margin-bottom: 0.8em;
+}
+.join-button{
+  background-color: rgb(102, 217, 190);
+}
+a {
+  color: rgb(102, 217, 190);
+}
+.logo2{
+  padding-bottom: 30px;
+}
+
+.all {
+  position: relative;
+  top: 50px
+}

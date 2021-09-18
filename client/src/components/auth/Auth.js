@@ -1,19 +1,35 @@
 import React from "react";
-import HomeBar from "../home/HomeBar";
+import "./Auth.css";
 import { Link } from "react-router-dom";
+import laco from "../../assets/img/lacotaco.png";
 
 function auth() {
   return (
-    <>
-      <HomeBar />
-      <div>인증 성공 페이지입니다.</div>
-      <Link to="/auth/meeting_in">
-        <button>회의 참가</button>
-      </Link>
-      <Link to="/auth/meeting_up">
-        <button>회의 생성</button>
-      </Link>
-    </>
+    <div className="All">
+      <div className="top">
+        <Link to="/auth/meeting_in">
+          <input type="button" className="button topbtn" value="회의 참가" />
+        </Link>
+        <Link to="/my">
+          <input type="button" className="button topbtn" value="마이페이지" />
+        </Link>
+      </div>
+      <div className="bottom">
+        <div className="left">
+          <Link to="/auth/meeting_up">
+            <input type="button" className="button" value="회의 생성"  />
+          </Link>
+        </div>
+        <div className="center">
+          <img src={laco} width="300px" height="300px" alt="laco.png"></img>
+        </div>
+        <div className="right">  
+          <Link to="/auth/meeting_up">
+            <input type="button" className="button" value="로그아웃" />
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
 

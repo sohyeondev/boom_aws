@@ -1,0 +1,29 @@
+.All {
+  display: inline-block;
+  align-items: center;
+  text-align: center;
+  padding: 130px 100px 100px 100px;
+  width: 500px;
+
+}
+
+.bottom > div {
+  float: left;
+}
+
+.button {
+  background-color: rgb(102, 217, 190);
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  box-shadow: 0px 0px 5px rgb(129, 238, 220);
+  font-weight: bolder;
+}
+
+.button:hover {
+  box-shadow: 0px 0px 10px rgb(96, 178, 175);
+}
+
+.topbtn {
+  margin: 30px;
+}
