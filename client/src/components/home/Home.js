@@ -59,6 +59,7 @@ function Home({ history }) {
           if (res.data.message === true) {
             alert("로그인 성공! 인증페이지로 이동합니다.");
             sessionStorage.setItem('user_email', email)
+            sessionStorage.setItem('isLogin', 'true')
             history.push("/auth");
           }
           //로그인 실패

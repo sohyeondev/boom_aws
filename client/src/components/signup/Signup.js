@@ -105,13 +105,20 @@ function Signup({ history }) {
           name: name,
           email: email,
           pw: pw,
+          state : "signup",
         })
         .then((res) => {
           //회원가입 성공
           if (res.data.message === true) {
-            alert("가입 성공! DID인증을 요청합니다.");
-            axios.get(`http://3.37.192.173/writedid`)
-            console.log('did요청')
+            alert("가입 성공! DID를 발급합니다.");
+            axios.post(`http://3.37.192.173/writedid`, {
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              email: email
+            })
+            console.log('did요청 : '+email)
             history.push("/");
           }
           //회원가입 실패
