@@ -46,7 +46,7 @@ function Home({ history }) {
       alert("이메일 형식을 확인해주세요.");
     } else {
       await axios
-        .post(`http://localhost:3001/`, {
+        .post(`http://52.78.45.227:3001/`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",

@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import laco from "../../assets/img/lacotaco.png";
 
 function auth() {
+  const goLogout = (evnet) => {
+    if(window.confirm("로그아웃 하시겠습니까?")) {
+      sessionStorage.clear();
+    }
+  }
   return (
     <div className="All">
       <div className="top">
@@ -24,8 +29,8 @@ function auth() {
           <img src={laco} width="300px" height="300px" alt="laco.png"></img>
         </div>
         <div className="right">  
-          <Link to="/auth/meeting_up">
-            <input type="button" className="button" value="로그아웃" />
+          <Link to="/">
+            <input type="button" className="button" value="로그아웃" onClick={goLogout}/>
           </Link>
         </div>
       </div>

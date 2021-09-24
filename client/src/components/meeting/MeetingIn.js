@@ -29,9 +29,11 @@ const MeetingIn = () => {
   };
 
   return (
-    <div className="all">
+    <div className="meetingall">
       <div className="logo2">
-        <img src={logo} alt="로고" width="160px" height="90px" />
+        <Link to="/">
+          <img src={logo} alt="로고" width="160px" height="90px" title="홈으로"/> 
+        </Link>
       </div>
       <div className="join-box">
         <div>

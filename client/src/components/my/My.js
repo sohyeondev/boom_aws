@@ -1,11 +1,9 @@
 import React from "react";
-import HomeBar from "../home/HomeBar";
 import { Link } from "react-router-dom";
 
 function my() {
   return (
     <div>
-      <HomeBar />
       <h1>마이페이지입니다.</h1>
       <Link to="my/my_credential">
         <h2>credential</h2>

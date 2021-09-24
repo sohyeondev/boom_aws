@@ -97,7 +97,7 @@ function Signup({ history }) {
       alert("비밀번호가 다릅니다.");
     } else {
       await axios
-        .post(`http://localhost:3001/signup`, {
+        .post(`http://52.78.45.227:3001/signup`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -109,7 +109,9 @@ function Signup({ history }) {
         .then((res) => {
           //회원가입 성공
           if (res.data.message === true) {
-            alert("가입 성공! 로그인 페이지로 이동합니다.");
+            alert("가입 성공! DID인증을 요청합니다.");
+            axios.get(`http://3.37.192.173/writedid`)
+            console.log('did요청')
             history.push("/");
           }
           //회원가입 실패
