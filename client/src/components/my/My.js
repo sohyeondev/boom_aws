@@ -1,19 +1,28 @@
 import React from "react";
+import logo from "../../assets/img/boom.png";
 import { Link } from "react-router-dom";
+import "./my.css";
 
 function my() {
   return (
-    <div>
-      <h1>마이페이지입니다.</h1>
-      <Link to="my/my_credential">
-        <h2>credential</h2>
+    <div className="myall">
+      <Link to="/">
+        <img src={logo} alt="로고" width="160px" height="90px" />
       </Link>
-      <Link to="my/my_did">
-        <h2>DID</h2>
-      </Link>
-      <Link to="my/my_videos">
-        <h2>videos</h2>
-      </Link>
+      <div className="button-box">
+        <br />
+        <br />
+        <br />
+        <Link to="my/my_credential">
+          <input type="button" className="button2" value="credential" />
+        </Link>
+        <Link to="my/my_did">
+          <input type="button" className="button2" value="DID" />
+        </Link>
+        <Link to="my/my_videos">
+          <input type="button" className="button2" value="videos" />
+        </Link>
+      </div>
     </div>
   );
 }

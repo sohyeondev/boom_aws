@@ -1,0 +1,22 @@
+.myall {
+  position: relative;
+  top: 100px;
+}
+.button-box {
+  display: center;
+}
+.button2 {
+  background: rgb(125, 218, 196);
+  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+  margin-right: 10px;
+  box-shadow: 2px 2px 2px rgb(170, 170, 170);
+}
+.button2:hover {
+  box-shadow: 0px 0px 4px rgb(49, 49, 49);
+}
+.nomargin {
+  margin-bottom: 0;
+  margin-top: 0.8em;
+}

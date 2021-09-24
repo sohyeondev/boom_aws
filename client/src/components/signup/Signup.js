@@ -111,15 +111,23 @@ function Signup({ history }) {
           //회원가입 성공
           if (res.data.message === true) {
             alert("가입 성공! DID를 발급합니다.");
-            axios.post(`http://3.37.192.173/writedid`, {
+            // axios.get(`http://3.37.192.173/writedid`)
+            axios.post(`http://3.37.192.173/postest`, {
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
               },
               email: email
+            }).then((res) => {
+              console.log(res.data)
             })
+            .catch((error) => {
+              console.log('did post 오류 : '+error+' : 오류 끝');
+            })
+
             console.log('did요청 : '+email)
             history.push("/");
+
           }
           //회원가입 실패
           else if (res.data.message === "dup") {
@@ -141,16 +149,19 @@ function Signup({ history }) {
       </div>
       <div className="allitems" id="allitems">
         <div>
-          <br /><br />
+          <br />
+          <br />
           <input
             type="text"
             id="signName"
+            className="nomargin"
             onChange={onSignNameHandler}
             placeholder="이름"
           />
           <input
             type="text"
             id="signEmail"
+            className="nomargin"
             onChange={onSignEmailHandler}
             placeholder="이메일"
           />{" "}
@@ -159,12 +170,14 @@ function Signup({ history }) {
           <input
             type="password"
             id="signPassword"
+            className="nomargin"
             onChange={onSignPasswordHandler}
             placeholder="비밀번호"
           />{" "}
           <br />
           <input
             type="password"
+            className="nomargin"
             onChange={onSignPasswordConHandler}
             placeholder="비밀번호 확인"
           />{" "}
@@ -191,7 +204,12 @@ function Signup({ history }) {
         </div>
         <Link to="/">
           <br />
-          <input type="button" className="sign_but" onClick={onSignSubmitHandler} value="가입하기" />
+          <input
+            type="button"
+            className="sign_but nomargin"
+            onClick={onSignSubmitHandler}
+            value="가입하기"
+          />
         </Link>
       </div>
     </div>

@@ -81,7 +81,11 @@ function Home({ history }) {
         <div className="whtthe">
           <img src={logo} alt="로고" width="160px" height="90px" />
           <div className="catch">
-            <h3>더 빠르고 안전하게,<br />지금 BOOM에서 회의하세요!</h3>
+            <h3>
+              더 빠르고 안전하게,
+              <br />
+              지금 BOOM에서 회의하세요!
+            </h3>
           </div>
         </div>
         <br />
@@ -89,6 +93,7 @@ function Home({ history }) {
           <input
             type="text"
             id="id"
+            className="nomargin"
             onChange={onLoginEmailHandler}
             placeholder="이메일"
           />
@@ -97,20 +102,23 @@ function Home({ history }) {
           <input
             type="password"
             id="password"
+            className="nomargin"
             onChange={onLoginPasswordHandler}
             placeholder="비밀번호"
           />
           <Link to="/auth">
             <input
               type="button"
-              className="login_but"
+              className="login_but nomargin"
               value="로그인"
               onClick={onLoginSubmitHandler}
             />
           </Link>
           <br />
           <br />
-          <a href="/"><h4>비밀번호를 잊으셨나요?</h4></a>
+          <a href="/">
+            <h4>비밀번호를 잊으셨나요?</h4>
+          </a>
           <br />
           <hr />
           <br />
