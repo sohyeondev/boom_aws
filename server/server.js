@@ -112,5 +112,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => {
-    console.log(`Example app listening at http://52.78.45.227:${port}`)
+    console.log(`Example app listening at http://boompro.ml:${port}`)
 })

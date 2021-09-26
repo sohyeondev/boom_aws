@@ -97,7 +97,7 @@ function Signup({ history }) {
       alert("비밀번호가 다릅니다.");
     } else {
       await axios
-        .post(`https://sign.boomtest.ga/signup`, {
+        .post(`https://server.boompro.ml/signup`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
