@@ -97,7 +97,7 @@ function Signup({ history }) {
       alert("비밀번호가 다릅니다.");
     } else {
       await axios
-        .post(`http://52.78.45.227:3001/signup`, {
+        .post(`https://sign.boomtest.ga/signup`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",

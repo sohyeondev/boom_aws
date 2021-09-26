@@ -26,9 +26,13 @@ const Room = ({ match, location }) => {
   console.log(username);
 
   useEffect(() => {
-    socketRef.current = io.connect("/");
+    socketRef.current = io.connect("/")
 
     socketRef.current.emit("send userList", username);
+
+    socketRef.current.on("connect_error", () => {
+      console.log(`socket : ${socketRef.current.connect()}`)
+    });
 
     // asking for audio and video access
     navigator.mediaDevices

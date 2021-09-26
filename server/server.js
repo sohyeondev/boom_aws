@@ -1,6 +1,7 @@
 var express = require("express"); 	
-const http = require("http");
 var app = express();
+
+const http = require("http");
 const server = http.createServer(app);
 const socket = require("socket.io")
 const io = socket(server);
@@ -29,7 +30,6 @@ const users = {};
 const socketToRoom = {};
 const userList = [];
 
-console.log("start")
 
 // when the user is forming a connection with socket.io
 io.on("connection", (socket) => {
