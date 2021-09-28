@@ -5,43 +5,27 @@ const Toggle = (props) => {
   const userStream = props.userStream;
   // Toggle Video
   let isVideo = true;
-  let colorVideo = "#bc1823";
+  let colorVideo = "#9690d8";
   function toggleVideo() {
-    document.getElementById("avv").style.backgroundColor = colorVideo;
+    document.getElementById("av").style.backgroundColor = colorVideo;
     if (isVideo) {
-      colorVideo = "#302b70";
+      colorVideo = "#56537a";
     } else {
-      colorVideo = "#bc1823";
+      colorVideo = "#9690d8";
     }
     isVideo = !isVideo;
     userStream.current.getVideoTracks()[0].enabled = isVideo;
   }
 
-  function UrlCopy() {
-    const [copied, setCopied] = useState(false);
-
-    return (
-      <>
-        <CopyToClipboard text={props.url} onCopy={() => setCopied(true)}>
-          <button className="url">
-            {" "}
-            <i className="far fa-copy"></i>
-          </button>
-        </CopyToClipboard>
-        {copied ? alert("URL이 복사되었습니다.") : null}
-      </>
-    );
-  }
-
   // Toggle Audio
   let isAudio = true;
-  let colorAudio = "#bc1823";
+  let colorAudio = "#9690d8";
   function toggleAudio() {
     document.getElementById("av").style.backgroundColor = colorAudio;
     if (isAudio) {
-      colorAudio = "#302b70";
+      colorAudio = "#56537a";
     } else {
-      colorAudio = "#bc1823";
+      colorAudio = "#9690d8";
     }
     isAudio = !isAudio;
     userStream.current.getAudioTracks()[0].enabled = isAudio;
@@ -57,17 +41,34 @@ const Toggle = (props) => {
     <div id="button-box">
       <button id="av" onClick={toggleAudio}>
         {" "}
-        <i className="fas fa-microphone-slash"></i>{" "}
+        <i className="fas fa-microphone-slash fa-2x"></i>{" "}
+      </button>
+
+      <button id="av" onClick={toggleVideo}>
+        {" "}
+        <i className="fas fa-video-slash fa-2x"></i>{" "}
+      </button>
+      <button id="av" onClick={toggleVideo}>
+        {" "}
+        <i className="fas fa-share-square fa-2x"></i>{" "}
       </button>
       <button id="end" onClick={hangUp}>
         {" "}
-        <i className="fas fa-phone-square-alt fa-3x"></i>{" "}
+        <i className="fas fa-phone-slash fa-2x"></i>{" "}
       </button>
-      <button id="avv" onClick={toggleVideo}>
+      <button id="av" onClick={toggleVideo}>
         {" "}
-        <i className="fas fa-video"></i>{" "}
+        <i className="fas fa-user-friends fa-2x"></i>{" "}
       </button>
-      <UrlCopy />
+      <button id="av" onClick={toggleVideo}>
+        {" "}
+        <i className="fas fa-comments fa-2x"></i>{" "}
+      </button>
+
+      <button id="av" onClick={toggleVideo}>
+        {" "}
+        <i className="fas fa-record-vinyl fa-2x"></i>{" "}
+      </button>
     </div>
   );
 };

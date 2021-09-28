@@ -62,9 +62,25 @@ const Chat = (props) => {
     },
     [chat]
   );
+  function UrlCopy() {
+    const [copied, setCopied] = useState(false);
+
+    return (
+      <>
+        <CopyToClipboard text={props.url} onCopy={() => setCopied(true)}>
+          <button className="url">
+            {" "}
+            <i className="far fa-copy"></i>
+          </button>
+        </CopyToClipboard>
+        {copied ? alert("URL이 복사되었습니다.") : null}
+      </>
+    );
+  }
 
   return (
     <div className="App">
+      <UrlCopy />
       <div className="Box">
         <ChatBox chatArr={chatArr} />
         <div className="InputBox">

@@ -26,13 +26,9 @@ const Room = ({ match, location }) => {
   console.log(username);
 
   useEffect(() => {
-    socketRef.current = io.connect("/")
+    socketRef.current = io.connect("/");
 
     socketRef.current.emit("send userList", username);
-
-    socketRef.current.on("connect_error", () => {
-      console.log(`socket : ${socketRef.current.connect()}`)
-    });
 
     // asking for audio and video access
     navigator.mediaDevices
@@ -144,14 +140,14 @@ const Room = ({ match, location }) => {
   }
 
   return (
-    <div className="group-call">
+    <div>
       <link
         rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
         crossOrigin="anonymous"
-      ></link>
-      <div col="col-12">
+      />
+      <div className="allthings">
         <div className="videos">
           <video
             className="groupVideo"

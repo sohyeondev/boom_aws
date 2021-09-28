@@ -1,25 +1,15 @@
-.group-call {
-  display: flex;
-  margin-top: 0.3rem;
-  margin-left: 0.3em;
-  justify-content: center;
-  align-items: center;
+.allthings {
+  height: 100%;
 }
-
-.side {
-  display: flex;
-  width: 30%;
-  flex-direction: column;
-}
-
 #button-box {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
-  margin-top: 2rem;
+  position: absolute;
+  background-color: #d7f0ea;
+  border-radius: 8px;
+  padding: 20px;
+  padding-left: 30px;
+  bottom: 2em;
+  left: 27em;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap");
@@ -31,7 +21,7 @@
 
 #av {
   color: #f6f6f6;
-  background-color: #302b70;
+  background-color: #56537a;
   border: none;
   font-size: large;
   padding: 1rem;
@@ -40,22 +30,20 @@
 }
 #av:hover {
   color: #f6f6f6;
-  background-color: #787cd1;
+  background-color: #9690d8;
   border: none;
 }
-#avv {
+#end {
   color: #f6f6f6;
-  background-color: #302b70;
+  background-color: #b80000;
   border: none;
-  font-size: large;
   padding: 1rem;
+  font-size: large;
   border-radius: 5px;
   margin-right: 1rem;
 }
-#avv:hover {
-  color: #f6f6f6;
-  background-color: #787cd1;
-  border: none;
+#end:hover {
+  background-color: #ff0011;
 }
 #url {
   color: #f6f6f6;
@@ -63,7 +51,7 @@
   border: none;
   font-size: large;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 50px;
   margin-right: 1rem;
 }
 #cp {
@@ -107,18 +95,6 @@
   color: #f6f6f6;
   background-color: #787cd1;
   border: none;
-}
-#end {
-  color: #f6f6f6;
-  background-color: #5ec9cc;
-  border: none;
-  padding: 1rem;
-  font-size: large;
-  border-radius: 5px;
-  margin-right: 1rem;
-}
-#end:hover {
-  background-color: #bc1823;
 }
 
 .chatBox {
@@ -169,4 +145,9 @@
   margin: 0.5rem;
   background: rgb(19, 37, 64, 0.8);
   border-radius: 5px;
+}
+.side {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
 }
