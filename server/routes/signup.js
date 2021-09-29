@@ -3,7 +3,6 @@ var express = require("express");
 var router = express.Router(); 
 var mysql= require("./mysql");
 const crypto = require('crypto');
-const salt = crypto.randomBytes(128).toString('base64');
 
 router.post('/', (req, res) =>{
 
@@ -11,7 +10,7 @@ router.post('/', (req, res) =>{
         var name = req.body.name //클라이언트에서 받아오는 값
         var email = req.body.email
         var pw = req.body.pw
-        var userSalt = salt
+        const salt = crypto.randomBytes(128).toString('base64');
 
         const hashPW = crypto.createHash('sha512').update(pw + salt).digest('hex');
 
@@ -21,7 +20,7 @@ router.post('/', (req, res) =>{
             if(!error) {
                 if(result[0]==undefined){
                     mysql.query('INSERT INTO users(name, email, pw, salt) VALUES(?, ?, ?, ?);',
-                    [name, email, hashPW, userSalt],
+                    [name, email, hashPW, salt],
                     function(error, result){
                         if(!error){
                             res.json({ message: true }) //클라이언트에 전달
@@ -40,11 +39,11 @@ router.post('/', (req, res) =>{
             }
         }) 
     } else if(req.body.state === 'resDID') {
-        var no = req.body.no
+        var email = req.body.email
         var did = req.body.did
         var verkey = req.body.verkey
-        console.log("no : "+no+" did : "+did+" verkey : "+verkey);
-        mysql.query('UPDATE users SET did=?, verkey=? WHERE no=?;', [did, verkey, no])
+        console.log("email : "+email+" did : "+did+" verkey : "+verkey);
+        mysql.query('UPDATE users SET did=?, verkey=? WHERE email=?;', [did, verkey, email])
     } else {
         console.log('state 없음')
     }

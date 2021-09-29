@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { v1 as uuid } from "uuid";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/boom.png";
+import axios from "axios";
 
 const MeetingUp = () => {
   const [disabled, setDisabled] = useState(true);
@@ -17,6 +18,21 @@ const MeetingUp = () => {
       setDisabled(true);
     }
   };
+
+  const reqMettingUp = async (e) => {
+    axios.post(`/nymdid`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      "user_DID" : "Ph4te9s12EmCAMdir1CgD9",
+      "user_verkey" : "DNJUXxcTtErPGhALHSChxc3K4YYL7mj4QDzFBauyk235"
+    }).then((res) => {
+      console.log(res.data)
+    }).catch((error) => {
+      console.log("미팅 생성 오류")
+    })
+  }
 
   return (
     <div className="meetingall">
@@ -45,7 +61,7 @@ const MeetingUp = () => {
               },
             }}
           >
-            <input type="button" className="join-button" disabled={disabled} value="회의 생성" />
+            <input type="button" className="join-button" disabled={disabled} onClick={reqMettingUp} value="회의 생성" />
           </Link>
         </div>
       </div>

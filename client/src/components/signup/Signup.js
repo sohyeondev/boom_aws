@@ -99,8 +99,8 @@ function Signup({ history }) {
       await axios
         .post(`https://server.boompro.ml/signup`, {
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/x-www-form-urlencoded',
+             Accept: "application/json",
           },
           name: name,
           email: email,
@@ -112,25 +112,26 @@ function Signup({ history }) {
           if (res.data.message === true) {
             alert("가입 성공! DID를 발급합니다.");
             // axios.get(`http://3.37.192.173/writedid`)
-            axios.get(`/writedid`, {
+            axios.post(`https://boomdid.ml/writedid`, {
               headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
+                'Content-Type': 'text/plain',
+                 Accept: "application/json",
               },
+              email: email,
             }).then((res) => {
               axios.post(`https://server.boompro.ml/signup`, {
                 headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                   Accept: "application/json",
                 },
-                no : res.data.no,
+                email : res.data.email,
                 did : res.data.DID,
                 verkey : res.data.Verkey,
                 state : res.data.state
               })
             }) 
             .catch((error) => {
-              console.log('DID get 오류 : '+error+' : 오류 끝');
+              console.log('DID get 오류 : '+error);
             })
 
             history.push("/");
