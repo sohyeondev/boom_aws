@@ -112,20 +112,27 @@ function Signup({ history }) {
           if (res.data.message === true) {
             alert("가입 성공! DID를 발급합니다.");
             // axios.get(`http://3.37.192.173/writedid`)
-            axios.post(`http://3.37.192.173/postest`, {
+            axios.get(`/writedid`, {
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
               },
-              email: email
             }).then((res) => {
-              console.log(res.data)
-            })
+              axios.post(`https://server.boompro.ml/signup`, {
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                no : res.data.no,
+                did : res.data.DID,
+                verkey : res.data.Verkey,
+                state : res.data.state
+              })
+            }) 
             .catch((error) => {
-              console.log('did post 오류 : '+error+' : 오류 끝');
+              console.log('DID get 오류 : '+error+' : 오류 끝');
             })
 
-            console.log('did요청 : '+email)
             history.push("/");
 
           }

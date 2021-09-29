@@ -40,11 +40,11 @@ router.post('/', (req, res) =>{
             }
         }) 
     } else if(req.body.state === 'resDID') {
-        var email = req.body.email
-        var did = req.body.DID
-        var verkey = req.body.Verkey
-        console.log("email : "+email+" did : "+did+" verkey : "+verkey);
-        mysql.query('UPDATE users SET did=?, verkey=? WHERE email=?;', [did, verkey, email])
+        var no = req.body.no
+        var did = req.body.did
+        var verkey = req.body.verkey
+        console.log("no : "+no+" did : "+did+" verkey : "+verkey);
+        mysql.query('UPDATE users SET did=?, verkey=? WHERE no=?;', [did, verkey, no])
     } else {
         console.log('state 없음')
     }
