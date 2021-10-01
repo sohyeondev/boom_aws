@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/img/boom.png";
 import axios from "axios";
 
-const MeetingUp = () => {
+const MeetingUp = ({history}) => {
   const [disabled, setDisabled] = useState(true);
   const [name, setName] = useState("");
   const id = uuid();
@@ -22,13 +22,17 @@ const MeetingUp = () => {
   const reqMettingUp = async (e) => {
     axios.post(`/nymdid`, {
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        "Content-Type": 'application/x-www-form-urlencoded',
       },
-      "user_DID" : "Ph4te9s12EmCAMdir1CgD9",
-      "user_verkey" : "DNJUXxcTtErPGhALHSChxc3K4YYL7mj4QDzFBauyk235"
+      email : sessionStorage.getItem('user_email'),
     }).then((res) => {
-      console.log(res.data)
+      if(res.data === "True") {
+        alert("did 인증 성공! 회의를 생성합니다.")
+      }
+      else {
+        alert("did 인증 실패! 홈으로 돌아갑니다.")
+        history.push("/");
+      }
     }).catch((error) => {
       console.log("미팅 생성 오류")
     })

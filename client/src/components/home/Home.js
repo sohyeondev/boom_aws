@@ -48,8 +48,7 @@ function Home({ history }) {
       await axios
         .post(`https://server.boompro.ml/`, {
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            "Content-Type": 'application/x-www-form-urlencoded',
           },
           loginEmail: email,
           loginPW: pw,

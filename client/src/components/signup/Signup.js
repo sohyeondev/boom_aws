@@ -100,7 +100,7 @@ function Signup({ history }) {
         .post(`https://server.boompro.ml/signup`, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-             Accept: "application/json",
+            //  Accept: "application/json",
           },
           name: name,
           email: email,
@@ -114,15 +114,15 @@ function Signup({ history }) {
             // axios.get(`http://3.37.192.173/writedid`)
             axios.post(`https://boomdid.ml/writedid`, {
               headers: {
-                'Content-Type': 'text/plain',
-                 Accept: "application/json",
+                'Content-Type': 'application/x-www-form-urlencoded',
+                //  Accept: "application/json",
               },
               email: email,
             }).then((res) => {
               axios.post(`https://server.boompro.ml/signup`, {
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded',
-                   Accept: "application/json",
+                  //  Accept: "application/json",
                 },
                 email : res.data.email,
                 did : res.data.DID,
@@ -131,7 +131,7 @@ function Signup({ history }) {
               })
             }) 
             .catch((error) => {
-              console.log('DID get 오류 : '+error);
+              console.log('DID 오류 : '+error);
             })
 
             history.push("/");
