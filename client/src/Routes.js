@@ -12,6 +12,7 @@ import My from "./components/my/My";
 import Room from "./components/room/Room";
 import OnRoute from "./OnRoute";
 import OutRoute from "./OutRoute";
+import MeetingDID from "./components/meeting/MeetingDID"
 
 export const Routes = () => {
 
@@ -28,6 +29,7 @@ export const Routes = () => {
         <OnRoute path="/my/my_credential" component={MyCredential} />
         <OnRoute path="/my/my_did" component={MyDID} />
         <OnRoute path="/my/my_videos" component={MyVideos} />
+        <OnRoute path="/auth/meetingDID" component={MeetingDID}/>
         <Route
           render={({ location }) => (
             <div>

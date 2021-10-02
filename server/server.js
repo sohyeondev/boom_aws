@@ -1,27 +1,26 @@
-var express = require("express"); 	
+var express = require("express");
 var app = express();
-
 const http = require("http");
 const server = http.createServer(app);
-const socket = require("socket.io")
+const socket = require("socket.io");
 const io = socket(server);
-const port = 3001
+const port = 3001;
 const cors = require("cors");
-var bodyparser = require('body-parser');
+var bodyparser = require("body-parser");
 
-var mysql= require("./routes/mysql");
+var mysql = require("./routes/mysql");
 
 app.use(cors());
 app.use(bodyparser.json());
-app.use(express.urlencoded({ extended : true  }));
+app.use(express.urlencoded({ extended: true }));
 mysql.connect();
-app.use(express.static(__dirname+ "./routes"));
+app.use(express.static(__dirname + "./routes"));
 
 var home = require("./routes/home");
 var signup = require("./routes/signup");
 
-app.use('/',home); // 홈(로그인)
-app.use('/signup',signup); // 회원가입
+app.use("/", home); // 홈(로그인)
+app.use("/signup", signup); // 회원가입
 
 /* ------ CREATING AND JOINING ROOMS FOR CONNECTION BETWEEN USERS ------ */
 
@@ -30,6 +29,7 @@ const users = {};
 const socketToRoom = {};
 const userList = [];
 
+console.log("start");
 
 // when the user is forming a connection with socket.io
 io.on("connection", (socket) => {
@@ -49,6 +49,12 @@ io.on("connection", (socket) => {
     const usersInThisRoom = users[roomID].filter((id) => id !== socket.id);
     socket.emit("all users", usersInThisRoom);
     console.log(`emit all users ${usersInThisRoom}`);
+
+    // roomId에 들어감
+    socket.join(roomID);
+    socket.on("message", (message) => {
+      socket.broadcast.emit("message", message);
+    });
   });
 
   socket.on("send userList", (username) => {
@@ -60,13 +66,6 @@ io.on("connection", (socket) => {
 
   socket.on("connect_error", (err) => {
     console.log(`connect_error due to ${err.message}`);
-  });
-
-  socket.on("send message", (item) => {
-    //send message 이벤트 발생
-    console.log(item.name + " : " + item.message);
-    io.emit("receive message", { name: item.name, message: item.message });
-    //클라이언트에 이벤트를 보냄
   });
 
   // sending signal to existing members when user join
@@ -112,5 +111,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => {
-    console.log(`Example app listening at http://boompro.ml:${port}`)
+    console.log(`Example app listening at https://boompro.ml:${port}`)
 })
