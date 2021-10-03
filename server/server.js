@@ -2,8 +2,10 @@ var express = require("express");
 var app = express();
 const http = require("http");
 const server = http.createServer(app);
+
 const socket = require("socket.io");
 const io = socket(server);
+
 const port = 3001;
 const cors = require("cors");
 var bodyparser = require("body-parser");

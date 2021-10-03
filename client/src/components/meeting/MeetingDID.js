@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { v1 as uuid } from "uuid";
-import axios from "axios";
+// import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const MeetingDID = ({location}) => {
@@ -10,8 +10,14 @@ const MeetingDID = ({location}) => {
   const history = useHistory()
 
   useEffect(() => {
+    history.push({
+      pathname:`/room/${id}`,
+      state: {
+        username : username
+      }
+    })
 
-    axios.post(`https://boomdid.ml/nymdid`, {
+/*    axios.post(`https://boomdid.ml/nymdid`, {
       headers: {
         "Content-Type": 'application/x-www-form-urlencoded',
       },
@@ -32,7 +38,8 @@ const MeetingDID = ({location}) => {
       }
     }).catch((error) => {
       console.log("미팅 생성 오류 : "+error)
-    })
+    }) 
+  */
   }, [id, username]);
   return (
     <div>로딩중</div>

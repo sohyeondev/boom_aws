@@ -6,37 +6,43 @@ import "./room.css";
 import Video from "./Video";
 import Toggle from "./Toggle";
 
-
-// import Chat from "./Chat";
-// import UserList from "./UserList";
-
 // setting the constraints of video box
 const videoConstraints = {
   height: window.innerHeight / 2,
   width: window.innerWidth / 2,
 };
 
-const Room = ({ match,location }) => {
+const Room = ({ match, location }) => {
   // variables for different functionalities of video call
   const [peers, setPeers] = useState([]);
   const [chat, setChat] = useState("");
+  const [userNames, setUserNames] = useState([]);
+  const [screen, setscreen] = useState(false);
   const socketRef = useRef();
   const userVideo = useRef();
   const peersRef = useRef([]);
   const userStream = useRef();
-  
+  const senders = useRef([]);
   const { roomID } = match.params;
-  const {username} = location.state;
-
-  console.log(username);
+  const { username } = location.state;
 
   useEffect(() => {
     socketRef.current = io.connect("/");
 
     const chatBox = document.getElementById("chatBox");
 
-    socketRef.current.on("message", (message) => {
+    socketRef.current.on("message", (message, userName) => {
+      console.log(`message user : ${userName}`);
+      chatBox.appendChild(messenger(userName, true));
       chatBox.appendChild(makeMessage(message, true));
+    });
+
+    socketRef.current.emit("send user name", username);
+    console.log(`user name : ${username}`);
+
+    socketRef.current.on("send user list", (userNames) => {
+      setUserNames(userNames);
+      console.log(`user names : ${userNames}`);
     });
 
     // asking for audio and video access
@@ -71,7 +77,7 @@ const Room = ({ match,location }) => {
         });
 
         // sending signal to existing users after new user joined
-        socketRef.current.on("user joined", (payload) => {
+        socketRef.current.on("user joined", (payload, userNames) => {
           console.log("on user joined");
           const peer = addPeer(payload.signal, payload.callerID, stream);
           peersRef.current.push({
@@ -85,17 +91,17 @@ const Room = ({ match,location }) => {
           };
 
           setPeers((users) => [...users, peerObj]);
+          setUserNames(userNames);
         });
 
         // exisisting users recieving the signal
         socketRef.current.on("receiving returned signal", (payload) => {
-          console.log("on receiving returned signal");
           const item = peersRef.current.find((p) => p.peerID === payload.id);
           item.peer.signal(payload.signal);
         });
 
         // handling user disconnecting
-        socketRef.current.on("user left", (id) => {
+        socketRef.current.on("user left", (id, userNames) => {
           // finding the id of the peer who just left
           console.log("on user left");
           const peerObj = peersRef.current.find((p) => p.peerID === id);
@@ -107,9 +113,12 @@ const Room = ({ match,location }) => {
           const peers = peersRef.current.filter((p) => p.peerID !== id);
           peersRef.current = peers;
           setPeers(peers);
+
+          setUserNames(userNames);
+          console.log(`남은 유저 리스트 : ${userNames}`);
         });
       });
-  }, [roomID, username]);
+  }, []);
 
   // creating a peer object for newly joined user
   function createPeer(userToSignal, callerID, stream) {
@@ -117,6 +126,7 @@ const Room = ({ match,location }) => {
       initiator: true,
       trickle: false,
       stream,
+      wrtc: RTCPeerConnection,
     });
 
     peer.on("signal", (signal) => {
@@ -137,6 +147,7 @@ const Room = ({ match,location }) => {
       initiator: false,
       trickle: false,
       stream,
+      wrtc: RTCPeerConnection,
     });
 
     peer.on("signal", (signal) => {
@@ -155,7 +166,8 @@ const Room = ({ match,location }) => {
     const message = chat;
     socketRef.current.emit("message", message);
     setChat("");
-    chatBox.appendChild(makeMessage(message,false));
+    chatBox.appendChild(messenger(username, false));
+    chatBox.appendChild(makeMessage(message, false));
   }
 
   function onKeydown(e) {
@@ -165,6 +177,7 @@ const Room = ({ match,location }) => {
       const message = chat;
       socketRef.current.emit("message", message);
       setChat("");
+      chatBox.appendChild(messenger(username, false));
       chatBox.appendChild(makeMessage(message, false));
     }
   }
@@ -183,6 +196,52 @@ const Room = ({ match,location }) => {
     msgBox.className = classname;
     msgBox.innerText = message;
     return msgBox;
+  }
+  function messenger(userName, isOthers) {
+    const messenger = document.createElement("div");
+    messenger.innerText = userName;
+    const classname = isOthers ? "others-name" : "my-name";
+    messenger.className = classname;
+    return messenger;
+  }
+
+  // Sharing the Screen
+  function shareScreen() {
+    setscreen(true);
+
+    // asking for the display media along with the cursor movement of the user sharing the screen
+    navigator.mediaDevices.getDisplayMedia({ cursor: true }).then((stream) => {
+      const screenTrack = stream.getTracks()[0];
+
+      userStream.current
+        .getTracks()
+        .forEach((track) =>
+          senders.current.push(
+            peersRef.current.addTrack(track, userStream.current)
+          )
+        );
+
+      // finding the track which has a type "video", and then replacing it with the current track which is playingS
+      senders.current
+        .find((sender) => sender.track.kind === "video")
+        .replaceTrack(screenTrack);
+
+      // when the screenshare is turned off, replace the displayed screen with the video of the user
+      screenTrack.onended = function () {
+        senders.current
+          .find((sender) => sender.track.kind === "video")
+          .replaceTrack(userStream.current.getTracks()[1]);
+      };
+    });
+  }
+
+  // stopping screen share
+  function stopShare() {
+    setscreen(false);
+
+    senders.current
+      .find((sender) => sender.track.kind === "video")
+      .replaceTrack(userStream.current.getTracks()[1]);
   }
 
   return (
@@ -213,16 +272,31 @@ const Room = ({ match,location }) => {
           })}
         </div>
         <Toggle userStream={userStream} url={location.pathname} />
+        <button onClick={screen ? stopShare : shareScreen}>공유</button>
       </div>
       <div className="side">
+        <div id="userList">
+          <div style={{ position: "sticky", top: "0px", background: "#ffff" }}>
+            <h4>유저 목록</h4>
+          </div>
+          <div id="sc">
+            {userNames.map((user) => {
+              return (
+                <ul>
+                  <li style={{ color: "#ffff" }}>{user}</li>
+                </ul>
+              );
+            })}
+          </div>
+        </div>
         <div id="messageChat">
-          <h3>채팅</h3>
+          <h4>채팅</h4>
           <div id="chatBox"></div>
           <div id="sendBox">
             <input
               id="textMsg"
               type="text"
-              autocomplete="off"
+              autoComplete="off"
               value={chat}
               onChange={onChange}
               placeholder="메세지를 입력하세요"

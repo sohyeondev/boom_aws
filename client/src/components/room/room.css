@@ -1,8 +1,13 @@
-#videos {
-  background-color: rgb(136, 136, 136);
+.group-call {
+  display: flex;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  justify-content: space-between;
+}
+.group-call .videos {
   width: 70%;
 }
-.groupVideo {
+.group-call .videos .groupVideo {
   width: 23vw;
   height: 15vw;
   margin-top: 2em;
@@ -10,13 +15,93 @@
   background: rgba(136, 136, 136);
   border-radius: 10px;
 }
-.group-call {
-  display: flex;
-  margin-top: 0.3rem;
-  margin-left: 0.3em;
-  justify-content: center;
-  align-items: center;
+.group-call .side {
+  width: 30%;
+  border: 1px solid "gray";
 }
+.group-call .side h4 {
+  color: black;
+}
+.group-call .side #userList {
+  width: 280px;
+  height: 80px;
+  background-color: #a2d4c9;
+  border-radius: 8px;
+  overflow-y: scroll;
+}
+
+/* #sc {
+  overflow-y: scroll;
+  overflow-x: hidden;
+} */
+
+.group-call .side #userList #over {
+  overflow: scroll;
+}
+.group-call .side #userList li {
+  font-size: small;
+  margin-left: 8px;
+  list-style: none;
+}
+.group-call .side #messageChat {
+  width: 270px;
+  height: 450px;
+  display: flex;
+  background-color: #d7f0ea;
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 5px;
+}
+.group-call .side #messageChat #sendBox {
+  display: flex;
+  flex: 0.1;
+}
+.others-message-wrapper {
+  max-width: 70%;
+  width: fit-content;
+  align-items: left;
+  background-color: white;
+  border-radius: 8px;
+  font-size: small;
+  padding: 3px 5px;
+  margin: 0px auto 0px 0px;
+}
+.others-wrapper {
+  max-width: 70%;
+  width: fit-content;
+  align-items: left;
+  padding: 3px 5px;
+  margin: 0px auto 0px 0px;
+}
+.my-message-wrapper {
+  max-width: 70%;
+  width: fit-content;
+  text-align: right;
+  font-size: small;
+  align-items: right;
+  background-color: #a2d4c9;
+  border-radius: 8px;
+  margin: 0px 0px 0px auto;
+}
+.me-wrapper {
+  max-width: 70%;
+  width: fit-content;
+  text-align: right;
+  align-items: right;
+  padding: 3px 5px;
+  margin: 5px 5px 5px auto;
+}
+.others-name {
+  text-align: left;
+  margin-left: 8px;
+  font-size: small;
+}
+.my-name {
+  text-align: right;
+  margin-right: 8px;
+  font-size: small;
+}
+
 .allthings {
   height: 100%;
   width: 70%;
@@ -142,54 +227,4 @@
   color: #f6f6f6;
   background-color: #787cd1;
   border: none;
-}
-#side {
-  display: fixed;
-  margin-right: 10px;
-}
-#messageChat {
-  width: 270px;
-  height: 530px;
-  display: flex;
-  background-color: #d7f0ea;
-  border-radius: 8px;
-  margin-top: 10px;
-  padding: 5px;
-}
-#sendBox {
-  display: flex;
-  flex: 0.1;
-}
-.others-message-wrapper {
-  max-width: 70%;
-  width: fit-content;
-  align-items: left;
-  background-color: white;
-  border-radius: 8px;
-  padding: 3px 5px;
-  margin: 5px auto 5px 5px;
-}
-.others-wrapper {
-  max-width: 70%;
-  width: fit-content;
-  align-items: left;
-  padding: 3px 5px;
-  margin: 5px auto 5px 5px;
-}
-.my-message-wrapper {
-  max-width: 70%;
-  width: fit-content;
-  text-align: right;
-  align-items: right;
-  background-color: #a2d4c9;
-  border-radius: 8px;
-  margin: 5px 5px 5px auto;
-}
-.me-wrapper {
-  max-width: 70%;
-  width: fit-content;
-  text-align: right;
-  align-items: right;
-  padding: 3px 5px;
-  margin: 5px 5px 5px auto;
 }
