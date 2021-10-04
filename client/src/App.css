@@ -74,3 +74,8 @@ hr {
   height: 1px;
   background-color:gainsboro;
 }
+
+.nomargin2 {
+  margin-bottom: 0;
+  margin-top: 0.8em;
+}

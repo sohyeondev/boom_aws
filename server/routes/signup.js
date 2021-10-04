@@ -10,32 +10,46 @@ router.post('/', (req, res) =>{
         var name = req.body.name //클라이언트에서 받아오는 값
         var email = req.body.email
         var pw = req.body.pw
+        var code = req.body.code
         const salt = crypto.randomBytes(128).toString('base64');
-
         const hashPW = crypto.createHash('sha512').update(pw + salt).digest('hex');
 
-        mysql.query("SELECT * FROM users WHERE email = ?",
-        [email],
-        function(error, result){
+        mysql.query("SELECT * FROM companys WHERE code = ?",
+        [code],
+        function(error, result2){
             if(!error) {
-                if(result[0]==undefined){
-                    mysql.query('INSERT INTO users(name, email, pw, salt) VALUES(?, ?, ?, ?);',
-                    [name, email, hashPW, salt],
+                if(result2[0] !== undefined) {
+                    var company = result2[0].name
+                    var department = result2[0].department
+                    mysql.query("SELECT * FROM users WHERE email = ?",
+                    [email],
                     function(error, result){
-                        if(!error){
-                            res.json({ message: true }) //클라이언트에 전달
-                        } else {
-                            res.json({ message: false })
-                            console.log("서버 INSERT 오류 : " + error)
+                        if(!error) {
+                            if(result[0]==undefined){
+                                mysql.query('INSERT INTO users(name, email, pw, salt, company, department) VALUES(?, ?, ?, ?, ?, ?);',
+                                [name, email, hashPW, salt, company, department],
+                                function(error, result){
+                                    if(!error){
+                                        res.json({ message: true }) //클라이언트에 전달
+                                    } else {
+                                        res.json({ message: false })
+                                        console.log("서버 INSERT 오류 : " + error)
+                                    }
+                                });
+                            }
+                            else if(result[0]){
+                                res.json({ message: "dup" })
+                            }
+                        } 
+                        else {
+                            console.log("서버 SELECT 오류 : " + error)
                         }
-                    });
+                    })
+                } else {
+                    res.json({ message: "noCode"})
                 }
-                else if(result[0]){
-                    res.json({ message: "dup" })
-                }
-            } 
-            else {
-                console.log("서버 SELECT 오류 : " + error)
+            } else {
+                console.log("code : "+error)
             }
         }) 
     } else if(req.body.state === 'resDID') {

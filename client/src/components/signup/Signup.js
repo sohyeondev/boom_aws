@@ -25,6 +25,7 @@ function Signup({ history }) {
   const [signEmail, setSignEmail] = useState("");
   const [signPassword, setSignPassword] = useState("");
   const [signPasswordCon, setSignPasswordCon] = useState("");
+  const [signCode, setSignCode] = useState("");
 
   const onSignNameHandler = (event) => {
     setSignName(event.currentTarget.value);
@@ -39,17 +40,17 @@ function Signup({ history }) {
     const allitems = document.getElementById("allitems")
     if (signEmail === "") {
       p.style.display = "none";
-      allitems.style.height = "470px";
+      allitems.style.height = "420px";
     } else {
       if (signEmail.indexOf("@") === -1) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
-        allitems.style.height = "500px";
+        allitems.style.height = "450px";
       } else {
         p.style.display = "none";
-        allitems.style.height = "470px";
+        allitems.style.height = "420px";
       }
     }
   }, [signEmail]);
@@ -68,28 +69,32 @@ function Signup({ history }) {
     const signPassword = document.getElementById("signPassword").value;
     if (signPasswordCon === "") {
       p.style.display = "none";
-      allitems.style.height = "470px";
+      allitems.style.height = "420px";
     } else {
       if (signPasswordCon !== signPassword) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
-        allitems.style.height = "500px";
+        allitems.style.height = "450px";
       } else {
         p.style.display = "none";
-        allitems.style.height = "470px";
+        allitems.style.height = "420px";
       }
     }
   }, [signPasswordCon]);
 
+  const onSignCodeHandler = (event) => {
+    setSignCode(event.currentTarget.value);
+  }
+
   const onSignSubmitHandler = (event) => {
     event.preventDefault();
-    Post(signName, signEmail, signPassword, signPasswordCon);
+    Post(signName, signEmail, signPassword, signPasswordCon, signCode);
   };
 
-  const Post = async (name, email, pw, pwC) => {
-    if (name === "" || email === "" || pw === "" || pwC === "") {
+  const Post = async (name, email, pw, pwC, code) => {
+    if (name === "" || email === "" || pw === "" || pwC === "" || code ==="") {
       alert("모든 정보를 기입해주세요.");
     } else if (email.indexOf("@") === -1) {
       alert("이메일 형식을 확인해주세요.");
@@ -105,6 +110,7 @@ function Signup({ history }) {
           name: name,
           email: email,
           pw: pw,
+          code: code,
           state : "signup",
         })
         .then((res) => {
@@ -141,6 +147,9 @@ function Signup({ history }) {
           else if (res.data.message === "dup") {
             alert("이미 가입된 이메일입니다.");
           }
+          else if (res.data.message === "noCode") {
+            alert("유효하지 않은 코드입니다.");
+          }
         })
         .catch((error) => {
           console.log("클라이언트 오류 : " + error);
@@ -153,7 +162,9 @@ function Signup({ history }) {
   return (
     <div>
       <div className='logo'>
-      <img src={logo} alt="로고" width="160px" height="90px" />
+        <Link to="/">
+          <img src={logo} alt="로고" width="160px" height="90px" title="홈으로"/> 
+        </Link>
       </div>
       <div className="allitems" id="allitems">
         <div>
@@ -174,7 +185,7 @@ function Signup({ history }) {
             placeholder="이메일"
           />{" "}
           <br />
-          <p id="notEmail">이메일 형식으로 입력하세요!</p>
+          <p id="notEmail" className="nomargin">이메일 형식으로 입력하세요!</p>
           <input
             type="password"
             id="signPassword"
@@ -190,9 +201,16 @@ function Signup({ history }) {
             placeholder="비밀번호 확인"
           />{" "}
           <br />
-          <p id="notPWCon">비밀번호를 다시 확인해주세요!</p>
+          <p id="notPWCon" className="nomargin">비밀번호를 다시 확인해주세요!</p>
+          <input
+            type="text"
+            id="signCode"
+            className="nomargin"
+            onChange={onSignCodeHandler}
+            placeholder="확인코드"
+          />
         </div>
-        <div className="birthday">
+        {/* <div className="birthday">
           <div className="birthdayTitle">
             <p>생일</p>
           </div>
@@ -209,7 +227,7 @@ function Signup({ history }) {
               />
             </form>
           </div>
-        </div>
+        </div> */}
         <Link to="/">
           <br />
           <input

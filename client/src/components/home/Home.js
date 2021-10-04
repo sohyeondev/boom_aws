@@ -92,7 +92,7 @@ function Home({ history }) {
           <input
             type="text"
             id="id"
-            className="nomargin"
+            className="nomargin2"
             onChange={onLoginEmailHandler}
             placeholder="이메일"
           />
@@ -101,14 +101,14 @@ function Home({ history }) {
           <input
             type="password"
             id="password"
-            className="nomargin"
+            className="nomargin2"
             onChange={onLoginPasswordHandler}
             placeholder="비밀번호"
           />
           <Link to="/auth">
             <input
               type="button"
-              className="login_but nomargin"
+              className="login_but nomargin2"
               value="로그인"
               onClick={onLoginSubmitHandler}
             />

@@ -12,6 +12,13 @@ const videoConstraints = {
   width: window.innerWidth / 2,
 };
 
+const displayMediaOptions = {
+  video: {
+    cursor: "always",
+  },
+  audio: false,
+};
+
 const Room = ({ match, location }) => {
   // variables for different functionalities of video call
   const [peers, setPeers] = useState([]);
@@ -206,42 +213,29 @@ const Room = ({ match, location }) => {
   }
 
   // Sharing the Screen
-  function shareScreen() {
+  async function shareScreen() {
     setscreen(true);
 
-    // asking for the display media along with the cursor movement of the user sharing the screen
-    navigator.mediaDevices.getDisplayMedia({ cursor: true }).then((stream) => {
-      const screenTrack = stream.getTracks()[0];
-
-      userStream.current
-        .getTracks()
-        .forEach((track) =>
-          senders.current.push(
-            peersRef.current.addTrack(track, userStream.current)
-          )
-        );
-
-      // finding the track which has a type "video", and then replacing it with the current track which is playingS
-      senders.current
-        .find((sender) => sender.track.kind === "video")
-        .replaceTrack(screenTrack);
-
-      // when the screenshare is turned off, replace the displayed screen with the video of the user
-      screenTrack.onended = function () {
-        senders.current
-          .find((sender) => sender.track.kind === "video")
-          .replaceTrack(userStream.current.getTracks()[1]);
-      };
-    });
+    return navigator.mediaDevices
+      .getDisplayMedia(displayMediaOptions)
+      .then((stream) => {
+        userVideo.current.srcObject = stream;
+        userStream.current = stream;
+      })
+      .catch((err) => {
+        console.error("Error:" + err);
+        return null;
+      });
   }
 
   // stopping screen share
   function stopShare() {
     setscreen(false);
 
-    senders.current
-      .find((sender) => sender.track.kind === "video")
-      .replaceTrack(userStream.current.getTracks()[1]);
+    let tracks = userVideo.current.srcObject.getTracks();
+
+    tracks.forEach((track) => track.stop());
+    userVideo.current.srcObject = null;
   }
 
   return (
