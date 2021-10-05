@@ -17,7 +17,7 @@ const MeetingUp = ({history}) => {
   }
 
   useEffect(() => {
-    if (name == "" || infoDisabled == false) {
+    if (name === "" || infoDisabled === false) {
       setUpDisabled(true);
     } else {
       setUpDisabled(false);

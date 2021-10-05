@@ -10,14 +10,13 @@ const MeetingDID = ({match, location}) => {
   const { roomID } = match.params;
   const email = sessionStorage.getItem('user_email');
   useEffect(() => {
-    console.log("company: "+company)
     axios.post(`https://boomdid.ml/nymdid`, {
       headers: {
         "Content-Type": 'application/x-www-form-urlencoded',
       },
       email : email,
     }).then((res) => {
-      if(res.data === "True") {
+      if(res.data === "True"){
         if(sessionStorage.getItem('who_did') === "up"){
           alert(`did 인증 성공! [${company} ${department}] 회의를 생성합니다.`)
           history.push({
@@ -26,7 +25,7 @@ const MeetingDID = ({match, location}) => {
               username : username,
             }
           })
-        } else if(sessionStorage.getItem('who_did') === "in"){
+        }else{
             axios.post(`https://server.boompro.ml/meetingIn`, {
             headers: {
               "Content-Type": 'application/x-www-form-urlencoded',
@@ -38,6 +37,7 @@ const MeetingDID = ({match, location}) => {
             }).then((res) => {
               if(res.data.message === "satisfaction"){
                 alert(`did 인증 성공! [${company} ${department}] 회의에 참가합니다.`)
+                sessionStorage.setItem('who_did', 'in')
                 history.push({
                   pathname:`/room/${roomID}`,
                   state: {
@@ -51,12 +51,12 @@ const MeetingDID = ({match, location}) => {
               console.log("미팅 생성 오류 : "+error)
             }) 
         } 
-      else {
-          alert("did 인증 실패! 홈으로 돌아갑니다.")
-          window.location.href = 'https://boompro.ml/auth'
+      }else{
+        alert('did 인증 실패! 홈으로 돌아갑니다.')
+        history.push('/auth')
       }
-      }}).catch((error) => {
-        console.log("오류")
+    }).catch((error) => {
+        console.log("오류 : "+error)
       })
   }, [username]);
 

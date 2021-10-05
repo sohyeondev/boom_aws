@@ -5,7 +5,6 @@ import Peer from "simple-peer";
 import "./room.css";
 import Video from "./Video";
 import Toggle from "./Toggle";
-import axios from "axios";
 
 // setting the constraints of video box
 const videoConstraints = {
@@ -30,7 +29,7 @@ const Room = ({ match, location }) => {
   const userVideo = useRef();
   const peersRef = useRef([]);
   const userStream = useRef();
-  const senders = useRef([]);
+  // const senders = useRef([]);
   const { roomID } = match.params;
   const { username } = location.state;
 
