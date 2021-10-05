@@ -11,6 +11,7 @@ router.post('/', (req, res) =>{
         var email = req.body.email
         var pw = req.body.pw
         var code = req.body.code
+        var today = req.body.today
         const salt = crypto.randomBytes(128).toString('base64');
         const hashPW = crypto.createHash('sha512').update(pw + salt).digest('hex');
 
@@ -26,8 +27,8 @@ router.post('/', (req, res) =>{
                     function(error, result){
                         if(!error) {
                             if(result[0]==undefined){
-                                mysql.query('INSERT INTO users(name, email, pw, salt, company, department) VALUES(?, ?, ?, ?, ?, ?);',
-                                [name, email, hashPW, salt, company, department],
+                                mysql.query('INSERT INTO users(name, email, pw, salt, company, department, created_at) VALUES(?, ?, ?, ?, ?, ?, ?);',
+                                [name, email, hashPW, salt, company, department, today],
                                 function(error, result){
                                     if(!error){
                                         res.json({ message: true }) //클라이언트에 전달

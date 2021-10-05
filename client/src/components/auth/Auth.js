@@ -1,13 +1,36 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Auth.css";
 import { Link } from "react-router-dom";
 import laco from "../../assets/img/lacotaco.png";
+import axios from "axios";
 
-function auth() {
-  const goLogout = (evnet) => {
+function Auth() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [department, setDepartment] = useState("");
+  const [did, setDID] = useState("");
+
+  const goLogout = (event) => {
     if(window.confirm("로그아웃 하시겠습니까?")) {
       sessionStorage.clear();
     }
+  }
+  const goMyPage = (event) => {
+    axios.post(`https://server.boompro.ml/my`, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        //  Accept: "application/json",
+      },
+      state: "myPage",
+      email: sessionStorage.getItem('user_email')
+    }).then((res) => {
+      setName(res.data.name);
+      setEmail(res.data.email);
+      setCompany(res.data.company);
+      setDepartment(res.data.department);
+      setDID(res.data.did);
+    })
   }
   return (
     <div className="All">
@@ -15,8 +38,17 @@ function auth() {
         <Link to="/auth/meeting_in">
           <input type="button" className="button topbtn" value="회의 참가" />
         </Link>
-        <Link to="/my">
-          <input type="button" className="button topbtn" value="마이페이지" />
+        <Link to={{
+          pathname: "/my",
+          state: {
+            user_name:name,
+            user_email:email,
+            user_company:company,
+            user_department:department,
+            user_did:did
+          }
+        }}>
+          <input type="button" onClick={goMyPage} className="button topbtn" value="마이페이지" />
         </Link>
       </div>
       <div className="bottom">
@@ -38,4 +70,4 @@ function auth() {
   );
 }
 
-export default auth;
+export default Auth;

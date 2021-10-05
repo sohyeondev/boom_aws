@@ -21,6 +21,14 @@ const MeetingDID = ({match, location}) => {
     }).then((res) => {
       if(res.data === "True"){
         if(sessionStorage.getItem('who_did') === "up"){
+          var date = new Date();
+          var year = date.getFullYear().toString();
+          var month = ("0"+(date.getMonth() + 1)).slice(-2);
+          var day = ("0"+date.getDate()).slice(-2);
+          var hour = ("0"+date.getHours()).slice(-2);
+          var minute = ("0"+date.getMinutes()).slice(-2);
+          var second = ("0"+date.getSeconds()).slice(-2);
+          var today = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second
           axios.post(`https://server.boompro.ml/meetingUp`, {
             headers : {
               "Content-Type": 'application/x-www-form-urlencoded',
@@ -28,7 +36,8 @@ const MeetingDID = ({match, location}) => {
             state: "create",
             path: roomID,
             company: company,
-            department: department
+            department: department,
+            today: today
           }).then((res) => {
             if(res.data.message==="createGood"){
               alert(`did 인증 성공! [${company} ${department}] 회의를 생성합니다.`)

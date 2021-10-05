@@ -4,8 +4,8 @@
   display: flex;
   flex-direction: row;
 }
-#gotohome h1 {
-  padding: 40px;
+#gotohome h2 {
+  padding: 20px;
   color: rgb(0, 156, 143);
 }
 #blockparent {
@@ -15,9 +15,40 @@
   margin-top: 15px;
 }
 #blockparent .block {
-  width: 350px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
   height: 250px;
   background-color: white;
-  border: 1px solid rgb(0, 156, 143);
+  border: 1px solid rgb(0, 116, 106);
   margin-right: 20px;
 }
+#blockparent .block h3 {
+  margin: 20px;
+}
+#blockparent .block div {
+  float: left;
+  text-align: left;
+  margin-left: 20px;
+}
+#blockparent .block p {
+  padding: 40px;
+}
+#blockparent .block input:nth-child(1) {
+  height: 30px;
+}
+#blockparent .block input:nth-child(2) {
+  height: 30px;
+}
+#blockparent .block input:nth-child(3) {
+  height: 30px;
+}
+#blockparent .block button {
+  background-color: rgb(102, 217, 190);
+  width: 301px;
+  height: 35px;
+  border-radius: 8px;
+  border: 0;
+  outline: 0;
+}
+

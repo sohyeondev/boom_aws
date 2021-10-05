@@ -1,5 +1,4 @@
 //회원가입 서버
-const { RSA_NO_PADDING } = require("constants");
 var express = require("express");
 var router = express.Router(); 
 var mysql= require("./mysql");
@@ -25,8 +24,9 @@ router.post('/', (req, res) =>{
         var path = req.body.path
         var company = req.body.company
         var department = req.body.department
-        mysql.query("INSERT INTO meeting (path, company, department) VALUE (?, ?, ?);",
-        [path, company, department],
+        var today = req.body.today
+        mysql.query("INSERT INTO meeting (path, company, department, created_at) VALUE (?, ?, ?, ?);",
+        [path, company, department, today],
         function(error, result){
             if(!error){
                 res.json({
