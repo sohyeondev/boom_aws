@@ -44,7 +44,7 @@ const MeetingDID = ({match, location}) => {
                     username : username,
                   }
                 })
-              } else if(res.data.message = "dissatisfaction") {
+              } else if(res.data.message === "dissatisfaction") {
                 alert("회의 참가 조건에 맞지 않습니다.")  
               }
             }).catch((error) => {
@@ -58,7 +58,7 @@ const MeetingDID = ({match, location}) => {
     }).catch((error) => {
         console.log("오류 : "+error)
       })
-  }, [username]);
+  }, [username, company, department, email, history, roomID]);
 
   return (
     <div>로딩중</div>

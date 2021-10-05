@@ -1,5 +1,5 @@
 /* ------ IMPORTING FILES ------- */
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import "./room.css";
@@ -32,6 +32,18 @@ const Room = ({ match, location }) => {
   // const senders = useRef([]);
   const { roomID } = match.params;
   const { username } = location.state;
+
+  const makeMessage = useCallback((message, isOthers) => {
+    const name = document.createElement("div");
+    name.innerText = username;
+    const msgBox = document.createElement("div");
+    const classname = isOthers
+      ? "others-message-wrapper"
+      : "my-message-wrapper";
+    msgBox.className = classname;
+    msgBox.innerText = message;
+    return msgBox;
+  }, [username])
 
   useEffect(() => {
         socketRef.current = io.connect("/");
@@ -125,7 +137,7 @@ const Room = ({ match, location }) => {
               console.log(`남은 유저 리스트 : ${userNames}`);
             });
           });
-  }, []);
+  }, [roomID, username, makeMessage]);
 
   // creating a peer object for newly joined user
   function createPeer(userToSignal, callerID, stream) {
@@ -193,17 +205,6 @@ const Room = ({ match, location }) => {
     setChat(e.target.value);
   };
 
-  function makeMessage(message, isOthers) {
-    const name = document.createElement("div");
-    name.innerText = username;
-    const msgBox = document.createElement("div");
-    const classname = isOthers
-      ? "others-message-wrapper"
-      : "my-message-wrapper";
-    msgBox.className = classname;
-    msgBox.innerText = message;
-    return msgBox;
-  }
   function messenger(userName, isOthers) {
     const messenger = document.createElement("div");
     messenger.innerText = userName;

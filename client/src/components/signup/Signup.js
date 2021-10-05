@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./signup.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+// import { makeStyles } from "@material-ui/core/styles";
+// import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import logo from "../../assets/img/boom.png";
 
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   container: {
+//     display: "flex",
+//     flexWrap: "wrap",
+//   },
+//   textField: {
+//     marginLeft: theme.spacing(1),
+//     marginRight: theme.spacing(1),
+//     width: 200,
+//   },
+// }));
 
 function Signup({ history }) {
   const [signName, setSignName] = useState("");
@@ -157,7 +157,7 @@ function Signup({ history }) {
     }
   };
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <div>
