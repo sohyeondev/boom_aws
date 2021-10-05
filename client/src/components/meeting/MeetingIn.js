@@ -28,6 +28,10 @@ const MeetingIn = () => {
     }
   };
 
+  const reqIn = (e) => {
+    sessionStorage.setItem('who_did', "in")
+  }
+
   return (
     <div className="meetingall">
       <div className="logo2">
@@ -56,11 +60,11 @@ const MeetingIn = () => {
             to={{
               pathname: link,
               state: {
-                username: name,
+                username: name
               },
             }}
           >
-            <input type="button" className="join-button" disabled={disabled} value="회의 참가" />
+            <input type="button" onClick={reqIn} className="join-button" disabled={disabled} value="회의 참가" />
           </Link>
         </div>
       </div>

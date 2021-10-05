@@ -19,11 +19,12 @@ app.use(express.static(__dirname + "./routes"));
 var home = require("./routes/home");
 var signup = require("./routes/signup");
 var meetingUp = require("./routes/meetingUp");
+var meetingIn = require("./routes/meetingIn");
 
 app.use("/", home); // 홈(로그인)
 app.use("/signup", signup); // 회원가입
 app.use("/meetingUp", meetingUp);
-
+app.use("/meetingIn", meetingIn);
 /* ------ CREATING AND JOINING ROOMS FOR CONNECTION BETWEEN USERS ------ */
 
 // room object to store the created room IDs

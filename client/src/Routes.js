@@ -7,7 +7,6 @@ import { Route, Switch } from "react-router-dom";
 import MyCredential from "./components/my/MyCredential";
 import MyDID from "./components/my/MyDID";
 import MyVideos from "./components/my/MyVideos";
-import MeetingCon from "./components/meeting/MeetingCon";
 import My from "./components/my/My";
 import Room from "./components/room/Room";
 import OnRoute from "./OnRoute";
@@ -23,13 +22,12 @@ export const Routes = () => {
         <OnRoute path="/auth" exact component={Auth} />
         <OnRoute path="/auth/meeting_in" component={MeetingIn} />
         <OnRoute path="/auth/meeting_up" component={MeetingUp} />
-        <OnRoute path="/auth/meeting_con" component={MeetingCon} />
         <OnRoute path="/room/:roomID" component={Room} />
         <OnRoute path="/my" exact component={My} />
         <OnRoute path="/my/my_credential" component={MyCredential} />
         <OnRoute path="/my/my_did" component={MyDID} />
         <OnRoute path="/my/my_videos" component={MyVideos} />
-        <OnRoute path="/auth/meetingDID" component={MeetingDID}/>
+        <OnRoute path="/auth/meetingDID/:roomID" component={MeetingDID}/>
         <Route
           render={({ location }) => (
             <div>

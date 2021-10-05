@@ -1,59 +1,65 @@
 import { useEffect } from "react"
-import { v1 as uuid } from "uuid";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-const MeetingDID = ({location}) => {
-  const id = uuid();
-  const {username} = location.state;
-  console.log(username)
+const MeetingDID = ({match, location}) => {
   const history = useHistory()
-
+  const {username} = location.state;
+  const {company} = location.state;
+  const {department} = location.state;
+  const { roomID } = match.params;
+  const email = sessionStorage.getItem('user_email');
   useEffect(() => {
-    history.push({
-      pathname:`/room/${id}`,
-      state: {
-        username : username,
-      }
-    })
-
-/*    axios.post(`https://boomdid.ml/nymdid`, {
+    console.log("company: "+company)
+    axios.post(`https://boomdid.ml/nymdid`, {
       headers: {
         "Content-Type": 'application/x-www-form-urlencoded',
       },
-      email : sessionStorage.getItem('user_email'),
+      email : email,
     }).then((res) => {
-*/
-      axios.post(`https://server.boompro.ml/meetingUp`, {
-        headers: {
-          "Content-Type": 'application/x-www-form-urlencoded',
-        },
-        state : "meetingUp",
-        email : sessionStorage.getItem('user_email')
-      }).then((res) => {
-        console.log(res.data)
-      }).catch((error) => {
-        console.log("회사 및 부서 확인 오류 : "+error)
-      })
-/*
       if(res.data === "True") {
-        alert("did 인증 성공! 회의를 생성합니다.")
-        history.push({
-          pathname:`/room/${id}`,
-          state: {
-            username : username
-          }
-        })
-      }
+        if(sessionStorage.getItem('who_did') === "up"){
+          alert(`did 인증 성공! [${company} ${department}] 회의를 생성합니다.`)
+          history.push({
+            pathname:`/room/${roomID}`,
+            state: {
+              username : username,
+            }
+          })
+        } else if(sessionStorage.getItem('who_did') === "in"){
+            axios.post(`https://server.boompro.ml/meetingIn`, {
+            headers: {
+              "Content-Type": 'application/x-www-form-urlencoded',
+            },
+            state : "meetingIn",
+            email : sessionStorage.getItem('user_email'),
+            company : company,
+            department : department
+            }).then((res) => {
+              if(res.data.message === "satisfaction"){
+                alert(`did 인증 성공! [${company} ${department}] 회의에 참가합니다.`)
+                history.push({
+                  pathname:`/room/${roomID}`,
+                  state: {
+                    username : username,
+                  }
+                })
+              } else if(res.data.message = "dissatisfaction") {
+                alert("회의 참가 조건에 맞지 않습니다.")  
+              }
+            }).catch((error) => {
+              console.log("미팅 생성 오류 : "+error)
+            }) 
+        } 
       else {
-        alert("did 인증 실패! 홈으로 돌아갑니다.")
-        window.location.href = 'https://boompro.ml/auth'
+          alert("did 인증 실패! 홈으로 돌아갑니다.")
+          window.location.href = 'https://boompro.ml/auth'
       }
-    }).catch((error) => {
-      console.log("미팅 생성 오류 : "+error)
-    }) 
-  */
-  }, [id, username]);
+      }}).catch((error) => {
+        console.log("오류")
+      })
+  }, [username]);
+
   return (
     <div>로딩중</div>
   )

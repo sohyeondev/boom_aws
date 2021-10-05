@@ -5,6 +5,7 @@ import Peer from "simple-peer";
 import "./room.css";
 import Video from "./Video";
 import Toggle from "./Toggle";
+import axios from "axios";
 
 // setting the constraints of video box
 const videoConstraints = {
@@ -34,97 +35,97 @@ const Room = ({ match, location }) => {
   const { username } = location.state;
 
   useEffect(() => {
-    socketRef.current = io.connect("/");
+        socketRef.current = io.connect("/");
 
-    const chatBox = document.getElementById("chatBox");
-
-    socketRef.current.on("message", (message, userName) => {
-      console.log(`message user : ${userName}`);
-      chatBox.appendChild(messenger(userName, true));
-      chatBox.appendChild(makeMessage(message, true));
-    });
-
-    socketRef.current.emit("send user name", username);
-    console.log(`user name : ${username}`);
-
-    socketRef.current.on("send user list", (userNames) => {
-      setUserNames(userNames);
-      console.log(`user names : ${userNames}`);
-    });
-
-    // asking for audio and video access
-    navigator.mediaDevices
-      .getUserMedia({ audio: true, video: videoConstraints })
-      .then((stream) => {
-        // streaming the audio and video
-        userVideo.current.srcObject = stream;
-        userStream.current = stream;
-
-        socketRef.current.emit("join room group", roomID);
-        console.log("emit join room group");
-
-        // getting all user for the new user joining in
-        socketRef.current.on("all users", (users) => {
-          const peers = [];
-          console.log("on all users");
-
-          // adding the new user to the group
-          users.forEach((userID) => {
-            const peer = createPeer(userID, socketRef.current.id, stream);
-            peersRef.current.push({
-              peerID: userID,
-              peer,
+        const chatBox = document.getElementById("chatBox");
+    
+        socketRef.current.on("message", (message, userName) => {
+          console.log(`message user : ${userName}`);
+          chatBox.appendChild(messenger(userName, true));
+          chatBox.appendChild(makeMessage(message, true));
+        });
+    
+        socketRef.current.emit("send user name", username);
+        console.log(`user name : ${username}`);
+    
+        socketRef.current.on("send user list", (userNames) => {
+          setUserNames(userNames);
+          console.log(`user names : ${userNames}`);
+        });
+    
+        // asking for audio and video access
+        navigator.mediaDevices
+          .getUserMedia({ audio: true, video: videoConstraints })
+          .then((stream) => {
+            // streaming the audio and video
+            userVideo.current.srcObject = stream;
+            userStream.current = stream;
+    
+            socketRef.current.emit("join room group", roomID);
+            console.log("emit join room group");
+    
+            // getting all user for the new user joining in
+            socketRef.current.on("all users", (users) => {
+              const peers = [];
+              console.log("on all users");
+    
+              // adding the new user to the group
+              users.forEach((userID) => {
+                const peer = createPeer(userID, socketRef.current.id, stream);
+                peersRef.current.push({
+                  peerID: userID,
+                  peer,
+                });
+                peers.push({
+                  peerID: userID,
+                  peer,
+                });
+              });
+              setPeers(peers);
             });
-            peers.push({
-              peerID: userID,
-              peer,
+    
+            // sending signal to existing users after new user joined
+            socketRef.current.on("user joined", (payload, userNames) => {
+              console.log("on user joined");
+              const peer = addPeer(payload.signal, payload.callerID, stream);
+              peersRef.current.push({
+                peerID: payload.callerID,
+                peer,
+              });
+    
+              const peerObj = {
+                peer,
+                peerID: payload.callerID,
+              };
+    
+              setPeers((users) => [...users, peerObj]);
+              setUserNames(userNames);
+            });
+    
+            // exisisting users recieving the signal
+            socketRef.current.on("receiving returned signal", (payload) => {
+              const item = peersRef.current.find((p) => p.peerID === payload.id);
+              item.peer.signal(payload.signal);
+            });
+    
+            // handling user disconnecting
+            socketRef.current.on("user left", (id, userNames) => {
+              // finding the id of the peer who just left
+              console.log("on user left");
+              const peerObj = peersRef.current.find((p) => p.peerID === id);
+              if (peerObj) {
+                peerObj.peer.destroy();
+              }
+    
+              // removing the peer from the arrays and storing remaining peers in new array
+              const peers = peersRef.current.filter((p) => p.peerID !== id);
+              peersRef.current = peers;
+              setPeers(peers);
+    
+              setUserNames(userNames);
+              console.log(`남은 유저 리스트 : ${userNames}`);
             });
           });
-          setPeers(peers);
-        });
-
-        // sending signal to existing users after new user joined
-        socketRef.current.on("user joined", (payload, userNames) => {
-          console.log("on user joined");
-          const peer = addPeer(payload.signal, payload.callerID, stream);
-          peersRef.current.push({
-            peerID: payload.callerID,
-            peer,
-          });
-
-          const peerObj = {
-            peer,
-            peerID: payload.callerID,
-          };
-
-          setPeers((users) => [...users, peerObj]);
-          setUserNames(userNames);
-        });
-
-        // exisisting users recieving the signal
-        socketRef.current.on("receiving returned signal", (payload) => {
-          const item = peersRef.current.find((p) => p.peerID === payload.id);
-          item.peer.signal(payload.signal);
-        });
-
-        // handling user disconnecting
-        socketRef.current.on("user left", (id, userNames) => {
-          // finding the id of the peer who just left
-          console.log("on user left");
-          const peerObj = peersRef.current.find((p) => p.peerID === id);
-          if (peerObj) {
-            peerObj.peer.destroy();
-          }
-
-          // removing the peer from the arrays and storing remaining peers in new array
-          const peers = peersRef.current.filter((p) => p.peerID !== id);
-          peersRef.current = peers;
-          setPeers(peers);
-
-          setUserNames(userNames);
-          console.log(`남은 유저 리스트 : ${userNames}`);
-        });
-      });
   }, []);
 
   // creating a peer object for newly joined user
