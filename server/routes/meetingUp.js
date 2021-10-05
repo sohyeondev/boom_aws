@@ -1,4 +1,5 @@
 //회원가입 서버
+const { RSA_NO_PADDING } = require("constants");
 var express = require("express");
 var router = express.Router(); 
 var mysql= require("./mysql");
@@ -20,7 +21,23 @@ router.post('/', (req, res) =>{
                 console.log("서버 meetingUp 오류 : " + error)
             }
         }) 
-    } else {
+    }else if(req.body.state === "create") {
+        var path = req.body.path
+        var company = req.body.company
+        var department = req.body.department
+        mysql.query("INSERT INTO meeting (path, company, department) VALUE (?, ?, ?);",
+        [path, company, department],
+        function(error, result){
+            if(!error){
+                res.json({
+                    message:"createGood"
+                })
+                console.log("오류없음")
+            }else{
+                console.log("오류있음 : "+error)
+            }
+        })
+    }else {
         console.log('state 없음')
     }
 

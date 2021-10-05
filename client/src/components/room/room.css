@@ -27,7 +27,7 @@
   height: 80px;
   background-color: #a2d4c9;
   border-radius: 8px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* #sc {

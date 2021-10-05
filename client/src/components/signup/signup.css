@@ -54,3 +54,8 @@ body {
 .birthdayTitle > p {
   margin: 10px 0 0 0;
 }
+
+.nomargin {
+  margin-bottom: 0;
+  margin-top: 0.8em;
+}

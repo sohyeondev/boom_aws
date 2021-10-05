@@ -5,23 +5,24 @@ import "./my.css";
 
 function my() {
   return (
-    <div className="myall">
-      <Link to="/">
-        <img src={logo} alt="로고" width="160px" height="90px" />
-      </Link>
-      <div className="button-box">
-        <br />
-        <br />
-        <br />
-        <Link to="my/my_credential">
-          <input type="button" className="button2" value="credential" />
+    <div>
+      <div id="gotohome">
+        <Link to="/">
+          <img src={logo} alt="로고" width="160px" height="90px" />
         </Link>
-        <Link to="my/my_did">
-          <input type="button" className="button2" value="DID" />
-        </Link>
-        <Link to="my/my_videos">
-          <input type="button" className="button2" value="videos" />
-        </Link>
+        <h1>My Page</h1>
+      </div>
+      <hr />
+      <br />
+      <div>
+        <div id="blockparent">
+          <div className="block"></div>
+          <div className="block"></div>
+        </div>
+        <div id="blockparent">
+          <div className="block"></div>
+          <div className="block"></div>
+        </div>
       </div>
     </div>
   );

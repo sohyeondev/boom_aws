@@ -4,9 +4,6 @@ import Signup from "./components/signup/Signup";
 import MeetingUp from "./components/meeting/MeetingUp";
 import MeetingIn from "./components/meeting/MeetingIn";
 import { Route, Switch } from "react-router-dom";
-import MyCredential from "./components/my/MyCredential";
-import MyDID from "./components/my/MyDID";
-import MyVideos from "./components/my/MyVideos";
 import My from "./components/my/My";
 import Room from "./components/room/Room";
 import OnRoute from "./OnRoute";
@@ -24,9 +21,6 @@ export const Routes = () => {
         <OnRoute path="/auth/meeting_up" component={MeetingUp} />
         <OnRoute path="/room/:roomID" component={Room} />
         <OnRoute path="/my" exact component={My} />
-        <OnRoute path="/my/my_credential" component={MyCredential} />
-        <OnRoute path="/my/my_did" component={MyDID} />
-        <OnRoute path="/my/my_videos" component={MyVideos} />
         <OnRoute path="/auth/meetingDID/:roomID" component={MeetingDID}/>
         <Route
           render={({ location }) => (

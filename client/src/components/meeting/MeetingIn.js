@@ -58,7 +58,7 @@ const MeetingIn = () => {
         <div>
           <Link
             to={{
-              pathname: link,
+              pathname: `/auth/meetingDID${link}`,
               state: {
                 username: name
               },

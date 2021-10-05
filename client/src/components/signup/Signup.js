@@ -40,17 +40,17 @@ function Signup({ history }) {
     const allitems = document.getElementById("allitems")
     if (signEmail === "") {
       p.style.display = "none";
-      allitems.style.height = "420px";
+      allitems.style.height = "470px";
     } else {
       if (signEmail.indexOf("@") === -1) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
-        allitems.style.height = "450px";
+        allitems.style.height = "500px";
       } else {
         p.style.display = "none";
-        allitems.style.height = "420px";
+        allitems.style.height = "470px";
       }
     }
   }, [signEmail]);
@@ -69,17 +69,17 @@ function Signup({ history }) {
     const signPassword = document.getElementById("signPassword").value;
     if (signPasswordCon === "") {
       p.style.display = "none";
-      allitems.style.height = "420px";
+      allitems.style.height = "470px";
     } else {
       if (signPasswordCon !== signPassword) {
         p.style.display = "block";
         p.style.color = "red";
         p.style.fontSize = "12px";
         p.style.marginTop = "0";
-        allitems.style.height = "450px";
+        allitems.style.height = "500px";
       } else {
         p.style.display = "none";
-        allitems.style.height = "420px";
+        allitems.style.height = "470px";
       }
     }
   }, [signPasswordCon]);
@@ -168,7 +168,6 @@ function Signup({ history }) {
       </div>
       <div className="allitems" id="allitems">
         <div>
-          <br />
           <br />
           <input
             type="text"

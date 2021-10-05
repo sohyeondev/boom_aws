@@ -271,14 +271,14 @@ const Room = ({ match, location }) => {
       </div>
       <div className="side">
         <div id="userList">
-          <div style={{ position: "sticky", top: "0px", background: "#ffff" }}>
+          <div style={{ position: "sticky", top: "0px", background: "#a2d4c9" }}>
             <h4>유저 목록</h4>
           </div>
           <div id="sc">
             {userNames.map((user) => {
               return (
                 <ul>
-                  <li style={{ color: "#ffff" }}>{user}</li>
+                  <li style={{ color: "black" }}>{user}</li>
                 </ul>
               );
             })}
