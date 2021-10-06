@@ -191,7 +191,7 @@ function Signup({ history }) {
             className="nomargin"
             onChange={onSignEmailHandler}
             placeholder="이메일"
-          />{" "}
+         />{" "}
           <br />
           <p id="notEmail" className="nomargin">이메일 형식으로 입력하세요!</p>
           <input

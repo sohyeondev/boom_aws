@@ -1,15 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import "./Auth.css";
 import { Link } from "react-router-dom";
 import laco from "../../assets/img/lacotaco.png";
 import axios from "axios";
 
-function Auth() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
-  const [department, setDepartment] = useState("");
-  const [did, setDID] = useState("");
+function Auth({history}) {
 
   const goLogout = (event) => {
     if(window.confirm("로그아웃 하시겠습니까?")) {
@@ -17,7 +12,7 @@ function Auth() {
     }
   }
   const goMyPage = (event) => {
-    axios.post(`https://server.boompro.ml/my`, {
+    axios.post(`https://server.boompro.ml/auth`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         //  Accept: "application/json",
@@ -25,11 +20,18 @@ function Auth() {
       state: "myPage",
       email: sessionStorage.getItem('user_email')
     }).then((res) => {
-      setName(res.data.name);
-      setEmail(res.data.email);
-      setCompany(res.data.company);
-      setDepartment(res.data.department);
-      setDID(res.data.did);
+      history.push({
+        pathname: "/my",
+        state: {
+          user_name:res.data.name,
+          user_email:res.data.email,
+          user_company:res.data.company,
+          user_department:res.data.department,
+          user_did:res.data.did
+        }
+      })
+    }).catch((error) => {
+      console.log(error);
     })
   }
   return (
@@ -38,18 +40,7 @@ function Auth() {
         <Link to="/auth/meeting_in">
           <input type="button" className="button topbtn" value="회의 참가" />
         </Link>
-        <Link to={{
-          pathname: "/my",
-          state: {
-            user_name:name,
-            user_email:email,
-            user_company:company,
-            user_department:department,
-            user_did:did
-          }
-        }}>
           <input type="button" onClick={goMyPage} className="button topbtn" value="마이페이지" />
-        </Link>
       </div>
       <div className="bottom">
         <div className="left">
