@@ -3,15 +3,19 @@
 
 const Toggle = (props) => {
   const userStream = props.userStream;
+  const shareScreen = props.shareScreen;
   // Toggle Video
   let isVideo = true;
-  let colorVideo = "#9690d8";
+  let colorVideo = "#56537a";
   function toggleVideo() {
-    document.getElementById("av").style.backgroundColor = colorVideo;
+    document.getElementById("videoAv").style.backgroundColor = colorVideo;
+    var videoI = document.getElementById("videoI");
     if (isVideo) {
-      colorVideo = "#56537a";
-    } else {
+      videoI.className = "fas fa-video fa-2x"
       colorVideo = "#9690d8";
+    } else {
+      videoI.className = "fas fa-video-slash fa-2x"
+      colorVideo = "#56537a";
     }
     isVideo = !isVideo;
     userStream.current.getVideoTracks()[0].enabled = isVideo;
@@ -19,13 +23,16 @@ const Toggle = (props) => {
 
   // Toggle Audio
   let isAudio = true;
-  let colorAudio = "#9690d8";
+  let colorAudio = "#56537a";
   function toggleAudio() {
-    document.getElementById("av").style.backgroundColor = colorAudio;
+    document.getElementById("micAv").style.backgroundColor = colorAudio;
+    var micI = document.getElementById("micI");
     if (isAudio) {
-      colorAudio = "#56537a";
-    } else {
+      micI.className = "fas fa-microphone-alt fa-2x"
       colorAudio = "#9690d8";
+    } else {
+      micI.className = "fas fa-microphone-alt-slash fa-2x"
+      colorAudio = "#56537a";
     }
     isAudio = !isAudio;
     userStream.current.getAudioTracks()[0].enabled = isAudio;
@@ -37,37 +44,85 @@ const Toggle = (props) => {
     window.location.replace("/");
   }
 
+  // 유저목록
+  let isUser = true;
+  let colorUser = "#56537a";
+  function toggleUser() {
+    document.getElementById("userAv").style.backgroundColor = colorUser;
+    var userI = document.getElementById("userI");
+    if (isUser) {
+      userI.className = "fas fa-users fa-2x"
+      colorUser = "#9690d8";
+    } else {
+      userI.className = "fas fa-users-slash fa-2x"
+      colorUser = "#56537a";
+    }
+    isUser = !isUser;
+  }
+
+  // 채팅
+  let isChat = true;
+  let colorChat = "#56537a";
+  function toggleChat() {
+    document.getElementById("chatAv").style.backgroundColor = colorChat;
+    var chatI = document.getElementById("chatI");
+    if (isChat) {
+      chatI.className = "fas fa-comment fa-2x"
+      colorChat = "#9690d8";
+    } else {
+      chatI.className = "fas fa-comment-slash fa-2x"
+      colorChat = "#56537a";
+    }
+    isChat = !isChat;
+  }
+
+  // 녹화
+  let isRecord = true;
+  let colorRecord = "#56537a";
+  function toggleRecord() {
+    document.getElementById("recordAv").style.backgroundColor = colorRecord;
+    var recordI = document.getElementById("recordI");
+    if (isRecord) {
+      recordI.className = "fas fa-play fa-2x"
+      colorRecord = "#9690d8";
+    } else {
+      recordI.className = "fas fa-stop fa-2x"
+      colorRecord = "#56537a";
+    }
+    isRecord = !isRecord;
+  }
+
   return (
     <div id="button-box">
-      <button id="av" onClick={toggleAudio}>
+      <button id="micAv" className="av1" onClick={toggleAudio}>
         {" "}
-        <i className="fas fa-microphone-slash fa-2x"></i>{" "}
+        <i id="micI" className="fas fa-microphone-slash fa-2x"></i>{" "}
       </button>
 
-      <button id="av" onClick={toggleVideo}>
+      <button id="videoAv" className="av1" onClick={toggleVideo}>
         {" "}
-        <i className="fas fa-video-slash fa-2x"></i>{" "}
+        <i id="videoI" className="fas fa-video-slash fa-2x"></i>{" "}
       </button>
-      <button id="av" onClick={toggleVideo}>
+      <button id="shareAv" className="av" onClick={shareScreen}>
         {" "}
-        <i className="fas fa-share-square fa-2x"></i>{" "}
+        <i id="shareI" className="fas fa-share-square fa-2x"></i>{" "}
       </button>
       <button id="end" onClick={hangUp}>
         {" "}
         <i className="fas fa-phone-slash fa-2x"></i>{" "}
       </button>
-      <button id="av" onClick={toggleVideo}>
+      <button id="userAv" className="av" onClick={toggleUser}>
         {" "}
-        <i className="fas fa-user-friends fa-2x"></i>{" "}
+        <i id="userI" className="fas fa-users fa-2x"></i>{" "}
       </button>
-      <button id="av" onClick={toggleVideo}>
+      <button id="chatAv" className="av" onClick={toggleChat}>
         {" "}
-        <i className="fas fa-comments fa-2x"></i>{" "}
+        <i id="chatI" className="fas fa-comment fa-2x"></i>{" "}
       </button>
 
-      <button id="av" onClick={toggleVideo}>
+      <button id="recordAv" className="av" onClick={toggleRecord}>
         {" "}
-        <i className="fas fa-record-vinyl fa-2x"></i>{" "}
+        <i id="recordI" className="fas fa-play fa-2x"></i>{" "}
       </button>
     </div>
   );

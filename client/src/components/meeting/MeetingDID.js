@@ -83,7 +83,7 @@ const MeetingDID = ({match, location}) => {
     }).catch((error) => {
         console.log("오류 : "+error)
       })
-  }, [username, company, department, email, history, roomID]);
+  }, []);
 
   return (
     <div className="App">

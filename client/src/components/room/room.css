@@ -117,7 +117,18 @@
   left: 27em;
 }
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap");
-#av {
+.av1 {
+  color: #f6f6f6;
+  background-color: #9690d8;
+  border: none;
+  font-size: large;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-right: 1rem;
+  width: 80px;
+  height: 80px;
+}
+.av {
   color: #f6f6f6;
   background-color: #56537a;
   border: none;
@@ -125,11 +136,14 @@
   padding: 1rem;
   border-radius: 5px;
   margin-right: 1rem;
+  width: 80px;
+  height: 80px;
 }
-#av:hover {
-  color: #f6f6f6;
-  background-color: #9690d8;
-  border: none;
+.av1:hover {
+  box-shadow: 0px 0px 5px #56537a;
+}
+.av:hover {
+  box-shadow: 0px 0px 5px #56537a;
 }
 #end {
   color: #f6f6f6;
@@ -139,6 +153,8 @@
   font-size: large;
   border-radius: 5px;
   margin-right: 1rem;
+  width: 80px;
+  height: 80px;
 }
 #end:hover {
   background-color: #ff0011;

@@ -27,18 +27,42 @@ app.use("/signup", signup); // 회원가입
 app.use("/meetingUp", meetingUp);
 app.use("/meetingIn", meetingIn);
 app.use("/auth", auth);
+
 /* ------ CREATING AND JOINING ROOMS FOR CONNECTION BETWEEN USERS ------ */
 
 // room object to store the created room IDs
 const users = {};
 const socketToRoom = {};
-const userList = {};
-let userNames = [];
+const rooms = {};
 
 // when the user is forming a connection with socket.io
 io.on("connection", (socket) => {
   console.log("on connection");
   // handling Group Video Call
+
+  socket.on("join", (roomID) => {
+    socket.join(roomID);
+    console.log(`join room ${roomID}`);
+  });
+
+  socket.on("send user name", (username, roomID) => {
+    const userList = {};
+
+    if (users[socket.id]) {
+      userList[socket.id].push(username);
+    } else {
+      userList[socket.id] = username;
+    }
+
+    if (rooms[roomID]) {
+      rooms[roomID].push(userList);
+    } else {
+      rooms[roomID] = [userList];
+    }
+
+    console.log(JSON.stringify(rooms));
+  });
+
   socket.on("join room group", (roomID) => {
     console.log("on join room group");
     // getting the room with the room ID and adding the user to the room
@@ -48,33 +72,39 @@ io.on("connection", (socket) => {
       users[roomID] = [socket.id];
     }
 
+    let userNames = [];
+    rooms[roomID].map((user) => {
+      userNames.push(Object.values(user));
+    });
+
     // returning new room with all the attendees after new attendee joined
     socketToRoom[socket.id] = roomID;
     const usersInThisRoom = users[roomID].filter((id) => id !== socket.id);
-    socket.emit("all users", usersInThisRoom);
-    console.log(`emit all users ${usersInThisRoom}`);
+    socket.emit("all users", usersInThisRoom, userNames);
+    console.log(`emit all users ${userNames}`);
   });
 
-  socket.on("send user name", (username) => {
-    if (users[socket.id]) {
-      userList[socket.id].push(username);
-    } else {
-      userList[socket.id] = username;
-    }
-
-    userNames = Object.values(userList);
-
-    socket.emit("send user list", userNames);
-    console.log(`userList : ${userNames}`);
-  });
-
-  socket.on("message", (message) => {
-    socket.broadcast.emit("message", message, userList[socket.id]);
+  socket.on("message", (message, roomID) => {
+    let userName = "";
+    rooms[roomID].map((user) => {
+      for (id in user) {
+        if (id === socket.id) {
+          userName = user[id];
+        }
+      }
+    });
+    console.log(`user name : ${userName}`);
+    socket.broadcast.to(roomID).emit("message", message, userName);
   });
 
   // sending signal to existing members when user join
-  socket.on("sending signal", (payload) => {
+  socket.on("sending signal", (payload, roomID) => {
     console.log("on sending signal");
+    let userNames = [];
+    if (rooms[roomID]){rooms[roomID].map((user) => {
+      userNames.push(Object.values(user));
+    });}
+
     io.to(payload.userToSignal).emit(
       "user joined",
       {
@@ -101,6 +131,7 @@ io.on("connection", (socket) => {
     console.log("on disconnect");
     // getting the room array with all the participants
     const roomID = socketToRoom[socket.id];
+    console.log(`room id : ${roomID}`);
     let room = users[roomID];
     console.log(`room : ${room}`);
 
@@ -111,17 +142,26 @@ io.on("connection", (socket) => {
       users[roomID] = room;
     }
 
-    for (let id in userList) {
-      if (id === socket.id) {
-        delete userList[id];
-      }
+    if (rooms[roomID]) {
+      rooms[roomID].map((user) => {
+        for (let id in user) {
+          if (id === socket.id) {
+            delete user[id];
+          }
+        }
+      });
     }
 
-    userNames = Object.values(userList);
+    let userNames = [];
+    if (rooms[roomID]){rooms[roomID].map((user) => {
+      userNames.push(Object.values(user));
+    });}
+
+    socket.leave(roomID);
 
     // emiting a signal and sending it to everyone that a user left
-    socket.broadcast.emit("user left", socket.id, userNames);
-    console.log(`남은 유저 :  ${userNames} `);
+    socket.broadcast.to(roomID).emit("user left", socket.id, userNames);
+    console.log(`남은 유저 :  ${userNames}`);
   });
 });
 

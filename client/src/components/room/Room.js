@@ -12,24 +12,18 @@ const videoConstraints = {
   width: window.innerWidth / 2,
 };
 
-const displayMediaOptions = {
-  video: {
-    cursor: "always",
-  },
-  audio: false,
-};
-
 const Room = ({ match, location }) => {
   // variables for different functionalities of video call
   const [peers, setPeers] = useState([]);
+  const peerRef = useRef();
   const [chat, setChat] = useState("");
   const [userNames, setUserNames] = useState([]);
-  const [screen, setscreen] = useState(false);
+  const [screen, setScreen] = useState(false);
   const socketRef = useRef();
   const userVideo = useRef();
   const peersRef = useRef([]);
   const userStream = useRef();
-  // const senders = useRef([]);
+  const screenTrackRef = useRef();
   const { roomID } = match.params;
   const { username } = location.state;
 
@@ -49,6 +43,8 @@ const Room = ({ match, location }) => {
         socketRef.current = io.connect("/");
 
         const chatBox = document.getElementById("chatBox");
+
+        socketRef.current.emit("join", roomID);
     
         socketRef.current.on("message", (message, userName) => {
           console.log(`message user : ${userName}`);
@@ -56,13 +52,8 @@ const Room = ({ match, location }) => {
           chatBox.appendChild(makeMessage(message, true));
         });
     
-        socketRef.current.emit("send user name", username);
+        socketRef.current.emit("send user name", username, roomID);
         console.log(`user name : ${username}`);
-    
-        socketRef.current.on("send user list", (userNames) => {
-          setUserNames(userNames);
-          console.log(`user names : ${userNames}`);
-        });
     
         // asking for audio and video access
         navigator.mediaDevices
@@ -76,13 +67,14 @@ const Room = ({ match, location }) => {
             console.log("emit join room group");
     
             // getting all user for the new user joining in
-            socketRef.current.on("all users", (users) => {
+            socketRef.current.on("all users", (users, userList) => {
               const peers = [];
               console.log("on all users");
     
               // adding the new user to the group
               users.forEach((userID) => {
                 const peer = createPeer(userID, socketRef.current.id, stream);
+                peerRef.current = peer
                 peersRef.current.push({
                   peerID: userID,
                   peer,
@@ -93,10 +85,13 @@ const Room = ({ match, location }) => {
                 });
               });
               setPeers(peers);
+              setUserNames(userList);
+
+              console.log(`user names : ${userList}`);
             });
     
             // sending signal to existing users after new user joined
-            socketRef.current.on("user joined", (payload, userNames) => {
+            socketRef.current.on("user joined", (payload, userList) => {
               console.log("on user joined");
               const peer = addPeer(payload.signal, payload.callerID, stream);
               peersRef.current.push({
@@ -110,7 +105,7 @@ const Room = ({ match, location }) => {
               };
     
               setPeers((users) => [...users, peerObj]);
-              setUserNames(userNames);
+              setUserNames(userList);
             });
     
             // exisisting users recieving the signal
@@ -120,7 +115,7 @@ const Room = ({ match, location }) => {
             });
     
             // handling user disconnecting
-            socketRef.current.on("user left", (id, userNames) => {
+            socketRef.current.on("user left", (id, userList) => {
               // finding the id of the peer who just left
               console.log("on user left");
               const peerObj = peersRef.current.find((p) => p.peerID === id);
@@ -133,11 +128,11 @@ const Room = ({ match, location }) => {
               peersRef.current = peers;
               setPeers(peers);
     
-              setUserNames(userNames);
+              setUserNames(userList);
               console.log(`남은 유저 리스트 : ${userNames}`);
             });
           });
-  }, [roomID, username, makeMessage]);
+  }, []);
 
   // creating a peer object for newly joined user
   function createPeer(userToSignal, callerID, stream) {
@@ -145,7 +140,6 @@ const Room = ({ match, location }) => {
       initiator: true,
       trickle: false,
       stream,
-      wrtc: RTCPeerConnection,
     });
 
     peer.on("signal", (signal) => {
@@ -154,7 +148,7 @@ const Room = ({ match, location }) => {
         userToSignal,
         callerID,
         signal,
-      });
+      }, roomID)
     });
 
     return peer;
@@ -166,7 +160,6 @@ const Room = ({ match, location }) => {
       initiator: false,
       trickle: false,
       stream,
-      wrtc: RTCPeerConnection,
     });
 
     peer.on("signal", (signal) => {
@@ -183,22 +176,10 @@ const Room = ({ match, location }) => {
     const chatBox = document.getElementById("chatBox");
     setChat(e.target.value);
     const message = chat;
-    socketRef.current.emit("message", message);
+    socketRef.current.emit("message", message, roomID);
     setChat("");
     chatBox.appendChild(messenger(username, false));
     chatBox.appendChild(makeMessage(message, false));
-  }
-
-  function onKeydown(e) {
-    if (e.key === "Enter") {
-      const chatBox = document.getElementById("chatBox");
-      setChat(e.target.value);
-      const message = chat;
-      socketRef.current.emit("message", message);
-      setChat("");
-      chatBox.appendChild(messenger(username, false));
-      chatBox.appendChild(makeMessage(message, false));
-    }
   }
 
   const onChange = (e) => {
@@ -215,28 +196,45 @@ const Room = ({ match, location }) => {
 
   // Sharing the Screen
   async function shareScreen() {
-    setscreen(true);
+    if (!screen) {
+      navigator.mediaDevices
+        .getDisplayMedia({ cursor: true })
+        .then((stream) => {
+          const screenTrack = stream.getTracks()[0];
 
-    return navigator.mediaDevices
-      .getDisplayMedia(displayMediaOptions)
-      .then((stream) => {
-        userVideo.current.srcObject = stream;
-        userStream.current = stream;
-      })
-      .catch((err) => {
-        console.error("Error:" + err);
-        return null;
-      });
-  }
+          peersRef.current.forEach(({ peer }) => {
+            // replaceTrack (oldTrack, newTrack, oldStream);
+            peer.replaceTrack(
+              peer.streams[0]
+                .getTracks()
+                .find((track) => track.kind === "video"),
+              screenTrack,
+              userStream.current
+            );
+          });
 
-  // stopping screen share
-  function stopShare() {
-    setscreen(false);
+          // Listen click end
+          screenTrack.onended = () => {
+            peersRef.current.forEach(({ peer }) => {
+              peer.replaceTrack(
+                screenTrack,
+                peer.streams[0]
+                  .getTracks()
+                  .find((track) => track.kind === "video"),
+                userStream.current
+              );
+            });
+            userVideo.current.srcObject = userStream.current;
+            setScreen(false);
+          };
 
-    let tracks = userVideo.current.srcObject.getTracks();
-
-    tracks.forEach((track) => track.stop());
-    userVideo.current.srcObject = null;
+          userVideo.current.srcObject = stream;
+          screenTrackRef.current = screenTrack;
+          setScreen(true);
+        });
+    } else {
+      screenTrackRef.current.onended();
+    }
   }
 
   return (
@@ -266,8 +264,7 @@ const Room = ({ match, location }) => {
             );
           })}
         </div>
-        <Toggle userStream={userStream} url={location.pathname} />
-        <button onClick={screen ? stopShare : shareScreen}>공유</button>
+        <Toggle userStream={userStream} url={location.pathname} screen={screen} shareScreen={shareScreen}/>
       </div>
       <div className="side">
         <div id="userList">
@@ -294,6 +291,7 @@ const Room = ({ match, location }) => {
               autoComplete="off"
               value={chat}
               onChange={onChange}
+              onKeyPress={(e) => {if(e.key==="Enter"){onClick(e)}}}
               placeholder="메세지를 입력하세요"
             />
             <input
@@ -301,7 +299,6 @@ const Room = ({ match, location }) => {
               id="sendBtn"
               value="send"
               onClick={onClick}
-              onKeyDown={onKeydown}
             ></input>
           </div>
         </div>

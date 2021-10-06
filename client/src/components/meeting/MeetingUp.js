@@ -22,7 +22,7 @@ const MeetingUp = ({history}) => {
     } else {
       setUpDisabled(false);
     }
-  }, [name, infoDisabled]);
+  }, [infoDisabled]);
 
   const reqQu = (e) => {
     axios.post(`https://server.boompro.ml/meetingUp`, {
@@ -37,6 +37,7 @@ const MeetingUp = ({history}) => {
         setDepartment(res.data.department)
         sessionStorage.setItem('who_did', "up")
         setInfoDisabled(true);
+        alert("회사 및 부서 인증 성공")
       }
       else {
         alert("회사 및 부서 정보가 없습니다. 홈으로 돌아갑니다.")
